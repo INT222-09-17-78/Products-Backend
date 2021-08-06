@@ -6,16 +6,16 @@ const router = express.Router()
 // router.get('/posts', (req,res) => {
 //     res.send('on post')
 // })
-const postController = require('../controllers/postController') 
+// const postController = require('../controllers/postController') 
 const userController = require('../controllers/userController')
 
-router.post('/user' , userController.postUser)
+router.post('/' , userController.create)
 
-router.get('/', postController.getAllPost)
+// router.get('/', postController.getAllPost)
 
-router.post('/', postController.postOne)
+// router.post('/', postController.postOne)
 
-router.get('/:postId', postController.getById)
+// router.get('/:postId', postController.getById)
 
 // router.delete('/:Id', async (req,res) => {
     
@@ -29,8 +29,8 @@ router.get('/:postId', postController.getById)
 //     // }
 // })
 
-router.delete('/:postId', postController.deleteById)
+// router.delete('/:postId', postController.deleteById)
 
-router.put('/:postId', postController.updateById)
+// router.put('/:postId', postController.updateById)
 
 module.exports = router;
