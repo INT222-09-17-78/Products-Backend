@@ -1,13 +1,21 @@
 const express = require('express')
 const app = express()
 const postRoutes = require('./routes/post')
-
-
+// const cookieSession = require('cookie-session')
+const session = require('express-session')
 
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true
 }));
+
+app.use(session({
+  secret: 'integratedProj2',
+  resave: false,
+  saveUninitialized: true
+}))
+
+
 
 const db = require('./models')
 

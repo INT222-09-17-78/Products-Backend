@@ -9,9 +9,16 @@ const router = express.Router()
 // const postController = require('../controllers/postController') 
 const userController = require('../controllers/userController')
 
+router.get('/dashboard'  ,userController.isAuth, userController.dashboard)
 router.post('/' , userController.create)
-
+router.get('/' , userController.findAll)
+router.get('/session' , userController.getSession)
+router.get('/:id' , userController.findOne)
+router.post('/login' , userController.logIn)
 // router.get('/', postController.getAllPost)
+router.get('/login', (req,res) => {
+    res.send('plase login')
+})
 
 // router.post('/', postController.postOne)
 
