@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const PostSchema = mongoose.Schema({
+const post = new mongoose.Schema({
     // _id:{
     //     type: Number,
     //     required: true
@@ -21,9 +21,32 @@ const PostSchema = mongoose.Schema({
         type: Number,
         required: true
     }
+},
+    {collection:'post'}
     // id: {
 
     // }
-})
+)
 
-module.exports = mongoose.model('asdasd', PostSchema)
+const users = new mongoose.Schema({
+    username : {
+        type : String,
+        required: true,
+        unique: true
+    },
+    password : {
+        type : String,
+        required : true
+    } ,
+},
+    {collection:'users'}
+    
+)
+
+const PostSchema = mongoose.model('asdasd', post)
+const UserSchema = mongoose.model('users', users)
+
+module.exports = {
+    Post : PostSchema,
+    User : UserSchema,
+}

@@ -7,6 +7,9 @@ const router = express.Router()
 //     res.send('on post')
 // })
 const postController = require('../controllers/postController') 
+const userController = require('../controllers/userController')
+
+router.post('/user' , userController.postUser)
 
 router.get('/', postController.getAllPost)
 
