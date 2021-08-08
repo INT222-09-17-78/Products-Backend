@@ -56,25 +56,26 @@ exports.create = async (req, res) => {
     .catch(err => {
       res.status(500).json({
         message:
-          err.message || "Some error occurred while creating the Tutorial."
+          err.message || "Some error occurred while creating the User."
       });
-      console.log({message: err.message || "Some error occurred while creating the Tutorial."})
+      console.log({message: err.message || "Some error occurred while creating the User."})
     });
 
 }
 
 exports.findAll = (req, res) => {
-  const username = req.query.username;
-  var condition = username ? { username: { [Op.like]: `%${username}%` } } : null;
+  // const username = req.query.username;
+  // var condition = username ? { username: { [Op.like]: `%${username}%` } } : null;
 
-  Users.findAll({where: condition})
+  // set in param if have condition {where: condition}
+  users = Users.findAll()
     .then(data => {
-      res.send(data);
+      res.json(data);
     })
     .catch(err => {
-      res.status(500).send({
+      res.status(500).json({
         message:
-          err.message || "Some error occurred while retrieving tutorials."
+          err.message || "Some error occurred while retrieving users."
       });
     });
 };
@@ -82,7 +83,8 @@ exports.findAll = (req, res) => {
 exports.getSession = (request, response) => {
   let sess = request.session
   console.log(sess)
-  response.status(200).send('email = ' + sess.email + '  ' + '_id = ' + sess._id)
+  // response.status(200).json('email = ' + sess.email + '  ' + '_id = ' + sess._id)
+  response.status(200).json({message: sess})
 }
 
 
@@ -91,37 +93,52 @@ exports.findOne = (req, res) => {
 
   Users.findByPk(id)
     .then(data => {
-      res.send(data);
+      res.json(data);
+      console.log(data)
     })
     .catch(err => {
-      res.status(500).send({
-        message: "Error retrieving Tutorial with id=" + id
+      res.status(500).json({
+        message: "Error retrieving Users with id=" + id
       });
     });
 };
 
 
 exports.logIn = async (req, res) => {
+  if(req.body.username == null || req.body.password == null){
+    console.log('username or password is invalid')
+    res.status(401).json({message: 'username or password is invalid'})
+    // res.redirect('/login')
+    return;
+  }
   const user = await Users.findOne({where: {username : req.body.username}})
-  console.log(user)
-  if(user == null){
-    console.log('user does not exist')
-    res.status(401).json({message: 'Authentication failed.'})
-    res.redirect('/login')
+  console.log(user.id)
+  console.log(req.body.password, user.password)
+  if(user == null || await bcrypt.compare(req.body.password, user.password) == false){
+    console.log('incorrect username or password')
+    res.status(401).json({message: 'Authentication failed. Incorrect username or password'})
+    // res.redirect('/login')
     return;
   }else{
+ 
     req.session.isAuth = true
+    req.session.username = user.username
+    // res.json({massage : 'login success'})
     console.log('login success')
     // res.status(200).json({message: 'Authentication success.'})
     res.redirect('/post/dashboard')
-  }
+  
+}
+  
 }
 
 exports.isAuth = (req,res,next) => {
+  console.log(req.session.isAuth)
   if(req.session.isAuth){
     next()
   }else{
     res.redirect('/post/login')
+    console.log(req.body)
   }
 }
 
@@ -129,3 +146,11 @@ exports.dashboard = (req, res) => {
   res.send('in dashboard page')
   // console.log(req.body)
 };
+
+exports.logOut = (req,res) => {
+  req.session.destroy((error) => {
+    if(error) throw error;
+  })
+
+  res.redirect('/post/login')
+}

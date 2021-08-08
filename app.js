@@ -19,11 +19,11 @@ app.use(session({
 
 const db = require('./models')
 
-app.use('/post' , postRoutes
+app.use('/api' , postRoutes
 )
-app.get("/", (req, res) => {
-    res.json({ message: "Welcome to bezkoder application." });
-  });
+// app.get("/", (req, res) => {
+//     res.json({ message: "Welcome to bezkoder application." });
+//   });
 
 db.sequelize.sync({fource: true}).then((res) => {
     app.listen(5000, () => {
