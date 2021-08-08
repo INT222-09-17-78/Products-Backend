@@ -126,7 +126,7 @@ exports.logIn = async (req, res) => {
     // res.json({massage : 'login success'})
     console.log('login success')
     // res.status(200).json({message: 'Authentication success.'})
-    res.redirect('/post/dashboard')
+    res.redirect('/api/dashboard')
   
 }
   
@@ -137,7 +137,7 @@ exports.isAuth = (req,res,next) => {
   if(req.session.isAuth){
     next()
   }else{
-    res.redirect('/post/login')
+    res.redirect('/api/login')
     console.log(req.body)
   }
 }
@@ -152,5 +152,5 @@ exports.logOut = (req,res) => {
     if(error) throw error;
   })
 
-  res.redirect('/post/login')
+  res.redirect('/api/login')
 }

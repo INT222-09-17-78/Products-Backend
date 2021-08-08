@@ -14,11 +14,11 @@ router.post('/' , userController.create)
 router.get('/' , userController.findAll)
 router.get('/session' , userController.getSession)
 router.get('/findUserById/:id' , userController.findOne)
+router.post('/login' , userController.logIn)
+router.post('/logout', userController.logOut)
 router.get('/login', (req,res) => {
     res.send('on login')
 })
-router.post('/login' , userController.logIn)
-router.post('/logout', userController.logOut)
 
 // router.get('/', postController.getAllPost)
 // router.get('/login', (req,res) => {
