@@ -3,7 +3,13 @@ const app = express()
 const postRoutes = require('./routes/post')
 // const cookieSession = require('cookie-session')
 const session = require('express-session')
+const cors = require('cors')
 
+app.use(cors(
+  {
+    origin:'*'
+  }
+))
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true
@@ -25,7 +31,7 @@ app.use('/api' , postRoutes
 //     res.json({ message: "Welcome to bezkoder application." });
 //   });
 
-db.sequelize.sync({fource: true}).then((res) => {
+db.sequelize.sync({force: true}).then((res) => {
     app.listen(5000, () => {
         console.log('server is running on port 5000')
     })

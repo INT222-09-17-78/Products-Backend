@@ -25,7 +25,7 @@ exports.create = async (req, res) => {
     const {username , password: plainTextPassword } = req.body
     const password = await bcrypt.hash(plainTextPassword,10)
 
-    if (!req.body.username || !plainTextPassword || typeof req.body.username != 'string' || typeof plainTextPassword != 'string') {
+    if (!req.body.username  || !plainTextPassword || typeof req.body.username != 'string' || typeof plainTextPassword != 'string') {
       res.status(400).json({
         message: "username or password is empty! or invalid!"
       });
@@ -34,7 +34,7 @@ exports.create = async (req, res) => {
         })
       return;
     }
-  if(plainTextPassword <= 5){
+  if(plainTextPassword.trim().length <= 5){
     res.status(400).json({
       message: "Password is toosmall. Should be atleast 6 characters"
     })
@@ -105,15 +105,15 @@ exports.findOne = (req, res) => {
 
 
 exports.logIn = async (req, res) => {
-  if(req.body.username == null || req.body.password == null){
+  if(!req.body.username|| !req.body.password){
     console.log('username or password is invalid')
-    res.status(401).json({message: 'username or password is invalid'})
+    res.status(400).json({message: 'username or password is invalid'})
     // res.redirect('/login')
     return;
   }
   const user = await Users.findOne({where: {username : req.body.username}})
-  console.log(user.id)
-  console.log(req.body.password, user.password)
+  // console.log(user.id)
+  // console.log(req.body.password, user.password)
   if(user == null || await bcrypt.compare(req.body.password, user.password) == false){
     console.log('incorrect username or password')
     res.status(401).json({message: 'Authentication failed. Incorrect username or password'})
