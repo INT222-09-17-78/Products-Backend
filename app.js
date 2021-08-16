@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const postRoutes = require('./routes/post')
+const userRoutes = require('./routes/user')
 // const cookieSession = require('cookie-session')
 const session = require('express-session')
 const cors = require('cors')
@@ -25,7 +25,7 @@ app.use(session({
 
 const db = require('./models')
 
-app.use('/api' , postRoutes
+app.use('/api' , userRoutes
 )
 // app.get("/", (req, res) => {
 //     res.json({ message: "Welcome to bezkoder application." });

@@ -3,7 +3,8 @@ const bcrypt = require('bcrypt')
 const db = require('../models')
 const Users = db.users
 const Op = db.sequelize.Op
-
+const upload = require('../middleware/upload')
+const fs = require('fs/promises')
 
 // exports.postUser = async (req,res) => {
 //     const {username , password: plainTextPassword } = req.body
@@ -18,27 +19,59 @@ const Op = db.sequelize.Op
 //         res.json(error)
 //     }
 // }
-exports.create = async (req, res) => {
+
+
+
+exports.createUserAndUploadPic = async (req, res, next) => {
 // Validate request
+// var i = 1
+// if(i==1){
+// console.log(await this.create(req,res))
+// i = i+1
+// }
+    // console.log(req.file)
+    console.log(req.body)
+    const {username , password:plainTextPassword } = req.body
+    const salt = await bcrypt.genSalt()
+    const password = await bcrypt.hash(plainTextPassword,salt)
+    // console.log(password)
 
-  
-    const {username , password: plainTextPassword } = req.body
-    const password = await bcrypt.hash(plainTextPassword,10)
-
+    // if(validateFileNotNull(req,res) == false){
+    //   // console.log('error')
+    //   return
+    // }
+    // console.log(validateFileNotNull(req,res))
+    // if(!req.file){
+    //   res.status(400).json({
+    //     message: "file is invalid"
+    //   })
+    //   console.log('error')
+    //   return 
+      
+    // }
     if (!req.body.username  || !plainTextPassword || typeof req.body.username != 'string' || typeof plainTextPassword != 'string') {
+      
       res.status(400).json({
         message: "username or password is empty! or invalid!"
       });
       console.log({
           message: "username or password is empty! or invalid!"
         })
-      return;
+        // console.log(req.file.filename)
+        // fs.unlink('./images/'+req.file.filename)
+        if(req.file){
+        fs.unlink('./images/'+req.file.filename)
+      }
+        return
     }
   if(plainTextPassword.trim().length <= 5){
     res.status(400).json({
       message: "Password is toosmall. Should be atleast 6 characters"
     })
-    return;
+    if(req.file){
+      fs.unlink('./images/'+req.file.filename)
+    }
+    return 
   }
    
   // Create a Tutorial
@@ -50,18 +83,48 @@ exports.create = async (req, res) => {
 
   // Save Tutorial in the database
   Users.create(users)
-    .then(data => {
-      res.status(200).json(data);
-    })
+  .then(data => {
+   
+    res.status(200).json(data);
+    next()
+  })
     .catch(err => {
       res.status(500).json({
         message:
           err.message || "Some error occurred while creating the User."
+          
+          
       });
       console.log({message: err.message || "Some error occurred while creating the User."})
-    });
-
+      // next()
+      if(req.file){
+        fs.unlink('./images/'+req.file.filename)
+      }
+    })
+    
 }
+  validateFileNotNull =   (req,res) => {
+  console.log(req.body)
+  if(!req.file){
+    res.status(400).json({
+      message: "file is invalid"
+    })
+    console.log('error')
+    return false
+    
+  }
+  
+}
+// exports.validateUserSuccessfullInsert =   (req,res) => {
+//   console.log(req.body)
+//   const user = this.findByUsername(req,res)
+//   if(!user){
+//     console.log('deleting picture')
+//     fs.unlink('./images/'+req.file.filename)
+//   }
+ 
+//   }
+  
 
 exports.findAll = (req, res) => {
   // const username = req.query.username;
@@ -88,7 +151,7 @@ exports.getSession = (request, response) => {
 }
 
 
-exports.findOne = (req, res) => {
+exports.findByPk = (req, res) => {
   const id = req.params.id;
 
   Users.findByPk(id)
@@ -99,6 +162,21 @@ exports.findOne = (req, res) => {
     .catch(err => {
       res.status(500).json({
         message: "Error retrieving Users with id=" + id
+      });
+    });
+};
+
+exports.findByUsername = (req, res) => {
+  const username = req.body.username;
+
+  Users.findOne({where: {username: username}})
+    .then(data => {
+      res.status(200).json(data);
+      console.log(data)
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: "Error retrieving Users with username=" + username
       });
     });
 };
