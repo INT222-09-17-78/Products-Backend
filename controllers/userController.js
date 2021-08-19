@@ -2,8 +2,8 @@
 const bcrypt = require('bcrypt')
 const db = require('../models')
 const Users = db.users
-const Op = db.sequelize.Op
-const upload = require('../middleware/upload')
+// const Op = db.sequelize.Op
+// const upload = require('../middleware/upload')
 const fs = require('fs/promises')
 
 // exports.postUser = async (req,res) => {
@@ -203,8 +203,8 @@ exports.logIn = async (req, res) => {
     req.session.username = user.username
     // res.json({massage : 'login success'})
     console.log('login success')
-    // res.status(200).json({message: 'Authentication success.'})
-    res.redirect('/api/dashboard')
+    res.status(200).json({message: 'login success.'})
+    // res.redirect('http://localhost:3000/')
   
 }
   
@@ -221,8 +221,8 @@ exports.isAuth = (req,res,next) => {
 }
 
 exports.dashboard = (req, res) => {
-  res.send('in dashboard page')
-  // console.log(req.body)
+  res.status(400).json('in dashboard')
+  console.log(req.body)
 };
 
 exports.logOut = (req,res) => {
