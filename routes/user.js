@@ -11,8 +11,17 @@ const userController = require('../controllers/userController')
 // const upload = require('../middleware/upload')
 
 router.get('/dashboard'  ,userController.isAuth, userController.dashboard)
-router.post('/uploadNone' ,upload.uploadUser.none(),userController.createUserAndUploadPic )
-router.post('/upload',upload.uploadUser.single('file'),userController.createUserAndUploadPic)
+
+router.post('/upload' ,(req,res,next)=>{
+    (upload.uploadUser.single('file'))(req,res  , (err) => {
+        if(err){
+            res.status(400).json({message:"file is invalid"})
+        }else{
+            next()
+        }
+    })
+} ,userController.createUserAndUploadPic )
+// router.post('/upload',upload.uploadUser.single('file'),userController.createUserAndUploadPic)
 
 router.get('/' , userController.findAll)
 router.get('/session' , userController.getSession)

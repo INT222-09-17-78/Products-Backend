@@ -20,89 +20,125 @@ const fs = require('fs/promises')
 //     }
 // }
 
+validateAndCreateUser = async (req,res) => {
+  
+  const {username , password:plainTextPassword ,emailOrMobile} = req.body
+  let email = null
+  let mobile = null
+  let image = null
+  let role = null
+  const salt = await bcrypt.genSalt()
+  const password = await bcrypt.hash(plainTextPassword,salt)
+  const mailFormat = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/);
+  const mobileFormat = new RegExp(/^(0[689]{1})+([0-9]{8})+$/);
+  if(req.file){
+    file = req.file.filename
+  }
+  if(req.role){
+    role = req.role
+  }
+  if(mobileFormat.test(emailOrMobile) == false && mailFormat.test(emailOrMobile) == false){
+    res.status(400).json({
+      message: "Enter your moblie or email only"
+    });
+    console.log({
+        message: "Enter your moblie or email only"
+      })
+      return false
+    }else if(mailFormat.test(emailOrMobile) == false){
+      mobile = emailOrMobile
+    }else{
+      email = emailOrMobile
+    }
+    
+  
 
+  if (!req.body.username  || !plainTextPassword || typeof req.body.username != 'string' || typeof plainTextPassword != 'string') {
+    
+    res.status(400).json({
+      message: "username or password is empty! or invalid!"
+    });
+    console.log({
+        message: "username or password is empty! or invalid!"
+      })
+      
+      
+      return false
+  }
+if(plainTextPassword.trim().length <= 8){
+  res.status(400).json({
+    message: "Password is toosmall. Should be atleast 8 characters"
+  })
+  
+  return false
+}
+if(req.body.username.trim().length > 25){
+  res.status(400).json({
+    message: "Username is toolarge. Should be only 25 characters"
+  })
+  
+  return false
+}
+if(req.body.username.trim().length < 6){
+  res.status(400).json({
+    message: "Username is toosmall. Should be atleast 6 characters"
+  })
+  
+  return false
+}
+ 
+
+const user = {
+  username: username,
+  password: password,
+  email: email,
+  mobile: mobile,
+  role: role,
+  image: image
+};
+return user
+}
 
 exports.createUserAndUploadPic = async (req, res, next) => {
-// Validate request
-// var i = 1
-// if(i==1){
-// console.log(await this.create(req,res))
-// i = i+1
-// }
-    // console.log(req.file)
-    console.log(req.body)
-    const {username , password:plainTextPassword } = req.body
-    const salt = await bcrypt.genSalt()
-    const password = await bcrypt.hash(plainTextPassword,salt)
-    // console.log(password)
-
-    // if(validateFileNotNull(req,res) == false){
-    //   // console.log('error')
-    //   return
-    // }
-    // console.log(validateFileNotNull(req,res))
-    // if(!req.file){
-    //   res.status(400).json({
-    //     message: "file is invalid"
-    //   })
-    //   console.log('error')
-    //   return 
-      
-    // }
-    if (!req.body.username  || !plainTextPassword || typeof req.body.username != 'string' || typeof plainTextPassword != 'string') {
-      
-      res.status(400).json({
-        message: "username or password is empty! or invalid!"
-      });
-      console.log({
-          message: "username or password is empty! or invalid!"
-        })
-        // console.log(req.file.filename)
-        // fs.unlink('./images/'+req.file.filename)
-        if(req.file){
-        fs.unlink('./images/'+req.file.filename)
-      }
-        return
-    }
-  if(plainTextPassword.trim().length <= 5){
-    res.status(400).json({
-      message: "Password is toosmall. Should be atleast 6 characters"
-    })
-    if(req.file){
-      fs.unlink('./images/'+req.file.filename)
-    }
-    return 
-  }
-   
-  // Create a Tutorial
-  const users = {
-    username: username,
-    password: password,
-   
-  };
-
-  // Save Tutorial in the database
-  Users.create(users)
-  .then(data => {
-   
-    res.status(200).json(data);
-    next()
-  })
-    .catch(err => {
-      res.status(500).json({
-        message:
-          err.message || "Some error occurred while creating the User."
-          
-          
-      });
-      console.log({message: err.message || "Some error occurred while creating the User."})
-      // next()
+  // console.log(await test(req,res))
+  validateAndCreateUser(req,res).then((data) => {
+    if(data == false){
       if(req.file){
         fs.unlink('./images/'+req.file.filename)
-      }
-    })
+        }
+      return
+    }else{
+      Users.create(data)
+      .then(data => {
+       
+        res.status(200).json(data);
+        next()
+      })
+        .catch(err => {
+          res.status(500).json({
+            message:
+              err.message || "Some error occurred while creating the User."
+              
+              
+          });
+          console.log({message: err.message || "Some error occurred while creating the User."})
+          // next()
+          if(req.file){
+            fs.unlink('./images/'+req.file.filename)
+          }
+        })
+    }
+  })
     
-}
+
+    
+  }
+
+  
+    
+
+
+
   validateFileNotNull =   (req,res) => {
   console.log(req.body)
   if(!req.file){
@@ -111,19 +147,10 @@ exports.createUserAndUploadPic = async (req, res, next) => {
     })
     console.log('error')
     return false
-    
   }
   
 }
-// exports.validateUserSuccessfullInsert =   (req,res) => {
-//   console.log(req.body)
-//   const user = this.findByUsername(req,res)
-//   if(!user){
-//     console.log('deleting picture')
-//     fs.unlink('./images/'+req.file.filename)
-//   }
- 
-//   }
+
   
 
 exports.findAll = (req, res) => {
