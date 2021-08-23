@@ -287,6 +287,7 @@ exports.logIn = async (req, res) => {
     // req.session.isAuth = true
     req.session.username = user.username
     // res.json({massage : 'login success'})
+    console.log(req.session)
     console.log('login success')
     res.status(200).json({message: 'login success.'})
     // res.redirect('http://localhost:3000/')
