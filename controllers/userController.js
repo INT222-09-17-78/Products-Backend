@@ -57,7 +57,9 @@ validateAndCreateUser = async (req,res) => {
     
     res.status(400).json({
       message: "username or password is empty! or invalid!"
+      
     });
+    
     console.log({
         message: "username or password is empty! or invalid!"
       })
@@ -115,13 +117,23 @@ exports.createUserAndUploadPic = async (req, res, next) => {
         next()
       })
         .catch(err => {
-          res.status(500).json({
-            message:
-              err.message || "Some error occurred while creating the User."
-              
-              
-          });
-          console.log({message: err.message || "Some error occurred while creating the User."})
+          
+          err.errors.forEach((error) => {
+            console.log(error)
+            if(error.validatorKey == 'not_unique'){
+              // if(error.path.include('users')){
+                error.message = error.value + ' is already in use'
+              // }
+              res.status(500).json({
+            
+                message:
+                  error.message || "Some error occurred while creating the User."
+                  
+                  
+              });
+            }
+          })
+          
           // next()
           if(req.file){
             fs.unlink('./images/'+req.file.filename)
@@ -139,17 +151,17 @@ exports.createUserAndUploadPic = async (req, res, next) => {
 
 
 
-  validateFileNotNull =   (req,res) => {
-  console.log(req.body)
-  if(!req.file){
-    res.status(400).json({
-      message: "file is invalid"
-    })
-    console.log('error')
-    return false
-  }
+//   validateFileNotNull =   (req,res) => {
+//   console.log(req.body)
+//   if(!req.file){
+//     res.status(400).json({
+//       message: "file is invalid"
+//     })
+//     console.log('error')
+//     return false
+//   }
   
-}
+// }
 
   
 
@@ -226,7 +238,7 @@ exports.logIn = async (req, res) => {
     return;
   }else{
  
-    req.session.isAuth = true
+    // req.session.isAuth = true
     req.session.username = user.username
     // res.json({massage : 'login success'})
     console.log('login success')
@@ -237,13 +249,13 @@ exports.logIn = async (req, res) => {
   
 }
 
-exports.isAuth = (req,res,next) => {
-  console.log(req.session.isAuth)
-  if(req.session.isAuth){
-    next()
+exports.isLoggedIn = (req,res,next) => {
+  console.log(req.session.username)
+  if(req.session.username){
+    res.status(200).json({loggedIn: true, user: req.session.username})
+    // next()
   }else{
-    res.redirect('/api/login')
-    console.log(req.body)
+    res.status(401).json({loggedIn: false})
   }
 }
 
