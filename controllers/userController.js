@@ -147,7 +147,53 @@ exports.createUserAndUploadPic = async (req, res, next) => {
   }
 
   
-    
+exports.updateUserAndUploadPic = async (req, res, next) => {
+  const User = await Users.findOne({where: {id: req.body.id}});
+if (!User) {
+  res.status(500).json({
+        
+    message: "cant find this user"
+      
+      
+  });
+}
+
+validateAndCreateUser(req,res).then((data) => {
+  if(data == false){
+    if(req.file){
+      fs.unlink('./images/'+req.file.filename)
+      }
+    return
+  }else{
+    User.update(data).then(data => {
+      res.status(200).json(data)
+    }).catch(err => {
+          
+      err.errors.forEach((error) => {
+        console.log(error)
+        if(error.validatorKey == 'not_unique'){
+          // if(error.path.include('users')){
+            error.message = error.value + ' is already in use'
+          // }
+          res.status(500).json({
+        
+            message:
+              error.message || "Some error occurred while creating the User."
+              
+              
+          });
+        }
+      })
+      
+      // next()
+      if(req.file){
+        fs.unlink('./images/'+req.file.filename)
+      }
+    })
+  }})
+
+
+}
 
 
 
@@ -190,8 +236,8 @@ exports.getSession = (request, response) => {
 }
 
 
-exports.findByPk = (req, res) => {
-  const id = req.params.id;
+findByPk = (req, res) => {
+  const id = req.body.id;
 
   Users.findByPk(id)
     .then(data => {

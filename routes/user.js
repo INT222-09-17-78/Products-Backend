@@ -12,7 +12,7 @@ const userController = require('../controllers/userController')
 
 // router.get('/dashboard'  ,userController.isAuth, userController.dashboard)
 
-router.post('/upload' ,(req,res,next)=>{
+router.post('/userAndUpload' ,(req,res,next)=>{
     (upload.uploadUser.single('file'))(req,res  , (err) => {
         if(err){
             res.status(400).json({message:"file is invalid"})
@@ -22,11 +22,20 @@ router.post('/upload' ,(req,res,next)=>{
     })
 } , (userController.createUserAndUploadPic)
 )
+router.put('/userAndUpload',(req,res,next)=>{
+    (upload.uploadUser.single('file'))(req,res  , (err) => {
+        if(err){
+            res.status(400).json({message:"file is invalid"})
+        }else{
+            next()
+        }
+    })
+} , (userController.updateUserAndUploadPic))
 // router.post('/upload',upload.uploadUser.single('file'),userController.createUserAndUploadPic)
 
 router.get('/' , userController.findAll)
 router.get('/session' , userController.getSession)
-router.get('/findUserById/:id' , userController.findByPk)
+// router.get('/findUserById/:id' , userController.findByPk)
 router.get('/findUserByUsername/' , userController.findByUsername)
 router.post('/login' , userController.logIn)
 router.get('/login' , userController.isLoggedIn)
