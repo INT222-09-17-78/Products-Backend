@@ -2,10 +2,11 @@
 const bcrypt = require('bcrypt')
 const db = require('../models')
 const Users = db.users
-// const Op = db.sequelize.Op
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 // const upload = require('../middleware/upload')
 const fs = require('fs/promises')
-
+const jwt = require('../middleware/jwt')
 // exports.postUser = async (req,res) => {
 //     const {username , password: plainTextPassword } = req.body
 //     const password = await bcrypt.hash(plainTextPassword,10)
@@ -268,13 +269,13 @@ exports.findByUsername = (req, res) => {
 
 
 exports.logIn = async (req, res) => {
-  if(!req.body.username|| !req.body.password){
+  if(!req.body.username|| !req.body.password ){
     console.log('username or password is invalid')
     res.status(400).json({message: 'username or password is invalid'})
     // res.redirect('/login')
     return;
   }
-  const user = await Users.findOne({where: {username : req.body.username}})
+  const user = await Users.findOne({where: {[Op.or]:[{username : req.body.username} , {email : req.body.username} , {mobile : req.body.username}]}})
   // console.log(user.id)
   // console.log(req.body.password, user.password)
   if(user == null || await bcrypt.compare(req.body.password, user.password) == false){
@@ -283,13 +284,17 @@ exports.logIn = async (req, res) => {
     // res.redirect('/login')
     return;
   }else{
- 
+    // console.log(user.id)
+    const token = jwt.createTokens(user)
     // req.session.isAuth = true
+    res.cookie("access-token", token,{
+      maxAge: 60*60*24*30*1000
+    })
     req.session.username = user.username
     // res.json({massage : 'login success'})
     console.log(req.session)
     console.log('login success')
-    res.status(200).json({message: 'login success.'})
+    res.status(200).json({message: 'login success.' , token : token})
     // res.redirect('http://localhost:3000/')
   
 }
@@ -312,9 +317,15 @@ exports.dashboard = (req, res) => {
 };
 
 exports.logOut = (req,res) => {
+  res.cookie("access-token",null)
   req.session.destroy((error) => {
-    if(error) throw error;
+    if(error){ 
+      res.status(500).json({message: 'logout failed ' + error}) }
+    else{
+      res.status(200).json({message: 'logout success'})
+    };
   })
+  
 
-  res.redirect('/api/login')
+
 }

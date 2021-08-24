@@ -2,7 +2,7 @@ const express = require('express')
 
 const router = express.Router()
 const upload = require('../middleware/upload')
-
+const jwt = require('../middleware/jwt')
 // router.get('/posts', (req,res) => {
 //     res.send('on post')
 // })
@@ -39,7 +39,7 @@ router.get('/session' , userController.getSession)
 router.get('/findUserByUsername/' , userController.findByUsername)
 router.post('/login' , userController.logIn)
 router.get('/login' , userController.isLoggedIn)
-router.post('/logout', userController.logOut)
+router.get('/logout', jwt.validateToken  , userController.logOut)
 // router.get('/login', (req,res) => {
 //     res.send('on login')
 // })
