@@ -7,11 +7,11 @@ const jwt = require('../middleware/jwt')
 //     res.send('on post')
 // })
 // const postController = require('../controllers/postController') 
-const userController = require('../controllers/userController')
+const usersController = require('../controllers/usersController')
 // const upload = require('../middleware/upload')
 
 // router.get('/dashboard'  ,userController.isAuth, userController.dashboard)
-
+// router.post('/userAndtodsob', usersController.createUser)
 router.post('/userAndUpload' ,(req,res,next)=>{
     (upload.uploadUser.single('file'))(req,res  , (err) => {
         if(err){
@@ -20,7 +20,7 @@ router.post('/userAndUpload' ,(req,res,next)=>{
             next()
         }
     })
-} , (userController.createUserAndUploadPic)
+} , (usersController.createUserAndUploadPic)
 )
 router.put('/userAndUpload',(req,res,next)=>{
     (upload.uploadUser.single('file'))(req,res  , (err) => {
@@ -30,16 +30,18 @@ router.put('/userAndUpload',(req,res,next)=>{
             next()
         }
     })
-} , (userController.updateUserAndUploadPic))
+} , (usersController.updateUserAndUploadPic))
 // router.post('/upload',upload.uploadUser.single('file'),userController.createUserAndUploadPic)
 
-router.get('/' , userController.findAll)
+router.get('/' , usersController.findAll)
 // router.get('/session' , userController.getSession)
 // router.get('/findUserById/:id' , userController.findByPk)
-router.get('/findUserByUsername/' , userController.findByUsername)
-router.post('/login' , userController.logIn)
-router.get('/login' , userController.loggedInUser)
-router.get('/logout' ,userController.validateLoggedIn, jwt.validateToken  , userController.logOut)
+router.get('/findUserByUsername/' , usersController.findByUsername)
+router.post('/login' , usersController.logIn)
+router.get('/login' , usersController.loggedInUser)
+router.get('/logout' ,usersController.validateLoggedIn, jwt.validateToken  , usersController.logOut)
+
+
 // router.get('/login', (req,res) => {
 //     res.send('on login')
 // })

@@ -7,6 +7,10 @@ const Op = Sequelize.Op;
 // const upload = require('../middleware/upload')
 const fs = require('fs/promises')
 const jwt = require('../middleware/jwt')
+
+
+
+
 // exports.postUser = async (req,res) => {
 //     const {username , password: plainTextPassword } = req.body
 //     const password = await bcrypt.hash(plainTextPassword,10)
@@ -22,7 +26,8 @@ const jwt = require('../middleware/jwt')
 // }
 
 validateAndCreateUser = async (req,res) => {
-  
+  console.log(req.body)
+  console.log('log')
   const {username , password:plainTextPassword ,emailOrMobile} = req.body
   let email = null
   let mobile = null

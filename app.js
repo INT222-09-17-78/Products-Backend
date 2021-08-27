@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
-const userRoutes = require('./routes/user')
+const usersRoutes = require('./routes/users')
+const brandsRoutes = require('./routes/brands')
+const ProductsRoutes = require('./routes/products')
 // const cookieSession = require('cookie-session')
 const session = require('express-session')
 const cors = require('cors')
@@ -26,8 +28,10 @@ app.use(session({
 
 const db = require('./models')
 
-app.use('/api' , userRoutes
+app.use('/api' , usersRoutes , ProductsRoutes, brandsRoutes
 )
+// app.use('/api' , ProductsRoutes )
+// app.use('/api' ,  brandsRoutes )
 // app.get("/", (req, res) => {
 //     res.json({ message: "Welcome to bezkoder application." });
 //   });

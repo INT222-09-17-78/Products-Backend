@@ -19,5 +19,21 @@ const db = {};
 db.sequelize = sequelize;
 
 db.users = require("./userModel.js")(sequelize,DataTypes);
+db.products = require("./productModel.js")(sequelize,DataTypes)
+db.brands = require("./brandModel.js")(sequelize,DataTypes)
+
+   
+
+  db.brands.hasMany(db.products,{
+      foreignKey:'BrandID',
+      as: "Products"
+  })
+
+  db.products.belongsTo(db.brands,{
+        foreignKey:'BrandID',
+        as: "Brands"
+    })
+
+
 
 module.exports = db;
