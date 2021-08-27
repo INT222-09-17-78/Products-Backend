@@ -27,7 +27,7 @@ validateAndCreateUser = async (req,res) => {
   let email = null
   let mobile = null
   let image = null
-  let role = null
+  let role = 'staff'
   const salt = await bcrypt.genSalt()
   const password = await bcrypt.hash(plainTextPassword,salt)
   const mailFormat = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/);
@@ -229,11 +229,20 @@ exports.findAll = (req, res) => {
     });
 };
 
-exports.getSession = (request, response) => {
-  let sess = request.session
-  console.log(sess)
-  // response.status(200).json('email = ' + sess.email + '  ' + '_id = ' + sess._id)
-  response.status(200).json({message: sess})
+exports.loggedInUser = (req, res) => {
+  // let sess = request.session
+  // console.log(sess)
+  // // response.status(200).json('email = ' + sess.email + '  ' + '_id = ' + sess._id)
+  // response.status(200).json({message: sess})
+  console.log(req.session.username)
+  if(req.session.username){
+    
+    res.status(200).json({loggedIn: true, user: req.session.username})
+    // next()
+    
+  }else{
+    res.status(401).json({loggedIn: false})
+  }
 }
 
 
@@ -291,6 +300,7 @@ exports.logIn = async (req, res) => {
       maxAge: 60*60*24*30*1000
     })
     req.session.username = user.username
+    // req.session.token = token
     // res.json({massage : 'login success'})
     console.log(req.session)
     console.log('login success')
@@ -301,13 +311,15 @@ exports.logIn = async (req, res) => {
   
 }
 
-exports.isLoggedIn = (req,res,next) => {
+exports.validateLoggedIn = (req,res,next) => {
   console.log(req.session.username)
   if(req.session.username){
-    res.status(200).json({loggedIn: true, user: req.session.username})
-    // next()
+    
+    // res.status(200).json({loggedIn: true, user: req.session.username})
+    next()
+    
   }else{
-    res.status(401).json({loggedIn: false})
+    res.status(401).json({message: 'please login first'})
   }
 }
 
@@ -317,6 +329,8 @@ exports.dashboard = (req, res) => {
 };
 
 exports.logOut = (req,res) => {
+  //maybe checklogin เอาออกนะ
+  // if(req.session.username){
   res.cookie("access-token",null)
   req.session.destroy((error) => {
     if(error){ 
@@ -325,7 +339,12 @@ exports.logOut = (req,res) => {
       res.status(200).json({message: 'logout success'})
     };
   })
+}
+// else{
+//   res.status(401).json({message: 'please login first'})
+// }
+
   
 
 
-}
+// }

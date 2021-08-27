@@ -19,6 +19,7 @@ const validateToken = (req,res,next) => {
         }
     }catch(error){
         return res.status(401).json({message: error})
+        //"it's not right token maybe plese login first"
     }
 }
 

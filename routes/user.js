@@ -34,12 +34,12 @@ router.put('/userAndUpload',(req,res,next)=>{
 // router.post('/upload',upload.uploadUser.single('file'),userController.createUserAndUploadPic)
 
 router.get('/' , userController.findAll)
-router.get('/session' , userController.getSession)
+// router.get('/session' , userController.getSession)
 // router.get('/findUserById/:id' , userController.findByPk)
 router.get('/findUserByUsername/' , userController.findByUsername)
 router.post('/login' , userController.logIn)
-router.get('/login' , userController.isLoggedIn)
-router.get('/logout', jwt.validateToken  , userController.logOut)
+router.get('/login' , userController.loggedInUser)
+router.get('/logout' ,userController.validateLoggedIn, jwt.validateToken  , userController.logOut)
 // router.get('/login', (req,res) => {
 //     res.send('on login')
 // })
