@@ -2,7 +2,8 @@ const multer = require('multer')
 const uuidv4 = require('uuid')
 const path = require('path')
 const fileFilter = (req, file , cb) => {
-    // console.log(req)
+    console.log(req)
+    console.log(file)
     // if(file){
     //     cb(new Error('The file is empty!'), false)
     // }

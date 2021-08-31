@@ -1,18 +1,12 @@
 const express = require('express')
-
 const router = express.Router()
 const upload = require('../middleware/upload')
-const jwt = require('../middleware/jwt')
-// router.get('/posts', (req,res) => {
-//     res.send('on post')
-// })
-// const postController = require('../controllers/postController') 
+const auth = require('../middleware/auth')
+const loginLogoutController = require('../controllers/loginLogoutController')
 const usersController = require('../controllers/usersController')
-// const upload = require('../middleware/upload')
+const adminsController = require('../controllers/adminsController')
 
-// router.get('/dashboard'  ,userController.isAuth, userController.dashboard)
-// router.post('/userAndtodsob', usersController.createUser)
-router.post('/userAndUpload' ,(req,res,next)=>{
+router.post('/users/userAndUpload' ,(req,res,next)=>{
     (upload.uploadUser.single('file'))(req,res  , (err) => {
         if(err){
             res.status(400).json({message:"file is invalid"})
@@ -22,7 +16,7 @@ router.post('/userAndUpload' ,(req,res,next)=>{
     })
 } , (usersController.createUserAndUploadPic)
 )
-router.put('/userAndUpload',(req,res,next)=>{
+router.put('/users/userAndUpload',auth.validateLoggedIn, auth.validateToken,(req,res,next)=>{
     (upload.uploadUser.single('file'))(req,res  , (err) => {
         if(err){
             res.status(400).json({message:"file is invalid"})
@@ -33,13 +27,14 @@ router.put('/userAndUpload',(req,res,next)=>{
 } , (usersController.updateUserAndUploadPic))
 // router.post('/upload',upload.uploadUser.single('file'),userController.createUserAndUploadPic)
 
-router.get('/' , usersController.findAll)
+router.get('/users' , usersController.findAll)
 // router.get('/session' , userController.getSession)
+router.put('/users/admin/updateRole', auth.validateLoggedIn, auth.validateToken ,auth.ValidateAdmin,adminsController.updateRole)
 // router.get('/findUserById/:id' , userController.findByPk)
-router.get('/findUserByUsername/' , usersController.findByUsername)
-router.post('/login' , usersController.logIn)
-router.get('/login' , usersController.loggedInUser)
-router.get('/logout' ,usersController.validateLoggedIn, jwt.validateToken  , usersController.logOut)
+router.get('/users/findUserByUsername/' , usersController.findByUsername)
+router.post('/users/login' , loginLogoutController.logIn)
+router.get('/users/login' , loginLogoutController.loggedInUser)
+router.get('/users/logout' ,auth.validateLoggedIn, auth.validateToken  , loginLogoutController.logOut)
 
 
 // router.get('/login', (req,res) => {
