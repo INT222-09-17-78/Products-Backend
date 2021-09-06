@@ -1,40 +1,41 @@
 const express = require('express')
 const router = express.Router()
-const upload = require('../middleware/upload')
+// const upload = require('../middleware/upload')
 const auth = require('../middleware/auth')
 const loginLogoutController = require('../controllers/loginLogoutController')
 const usersController = require('../controllers/usersController')
 const adminsController = require('../controllers/adminsController')
-
-router.post('/users/userAndUpload' ,(req,res,next)=>{
-    (upload.uploadUser.single('file'))(req,res  , (err) => {
-        if(err){
-            res.status(400).json({message:"file is invalid"})
-        }else{
-            next()
-        }
-    })
-} , (usersController.createUserAndUploadPic)
-)
-router.put('/users/userAndUpload',auth.validateLoggedIn, auth.validateToken,(req,res,next)=>{
-    (upload.uploadUser.single('file'))(req,res  , (err) => {
-        if(err){
-            res.status(400).json({message:"file is invalid"})
-        }else{
-            next()
-        }
-    })
-} , (usersController.updateUserAndUploadPic))
+const uplaod = require('../controllers/uploadsController')
+// router.post('/users/userAndUpload' ,(req,res,next)=>{
+//     (upload.uploadUserPromise)(req,res  , (err) => {
+//         if(err){
+//             res.status(400).json({message:"file is invalid"})
+//         }else{
+//             next()
+//         }
+//     })
+// } , (usersController.createUserAndUploadPic)
+// )
+// router.put('/users/userAndUpload',auth.validateLoggedIn, auth.validateToken,(req,res,next)=>{
+//     (upload.uploadUser.single('file'))(req,res  , (err) => {
+//         if(err){
+//             res.status(400).json({message:"file is invalid"})
+//         }else{
+//             next()
+//         }
+//     })
+// } , (usersController.updateUserAndUploadPic))
 // router.post('/upload',upload.uploadUser.single('file'),userController.createUserAndUploadPic)
-
+router.post('/users/userAndUpload', usersController.createUserAndUploadPic)
+router.put('/users/userAndUpload', uplaod.uploadFile ,auth.validateLoggedIn, auth.validateToken, usersController.createUserAndUploadPic)
 router.get('/users' , usersController.findAll)
 // router.get('/session' , userController.getSession)
 router.put('/users/admin/updateRole', auth.validateLoggedIn, auth.validateToken ,auth.ValidateAdmin,adminsController.updateRole)
 // router.get('/findUserById/:id' , userController.findByPk)
-router.get('/users/findUserByUsername/' , usersController.findByUsername)
 router.post('/users/login' , loginLogoutController.logIn)
 router.get('/users/login' , loginLogoutController.loggedInUser)
 router.get('/users/logout' ,auth.validateLoggedIn, auth.validateToken  , loginLogoutController.logOut)
+router.get('/users/findUserByUsername/' , usersController.findByUsername)
 
 
 // router.get('/login', (req,res) => {

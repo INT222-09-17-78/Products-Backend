@@ -2,11 +2,16 @@ const express = require('express')
 const app = express()
 const usersRoutes = require('./routes/users')
 const brandsRoutes = require('./routes/brands')
-const ProductsRoutes = require('./routes/products')
+const productsRoutes = require('./routes/products')
+const colorsRoutes = require('./routes/color')
+const uploadsRoutes = require('./routes/upload')
+const imagesRoutes = require('./routes/images')
 // const cookieSession = require('cookie-session')
 const session = require('express-session')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
+
+global.__basedir = __dirname; 
 app.use(cors(
   {
     origin:'http://localhost:3000',credentials:true,//access-control-allow-credentials:true optionSuccessStatus:200}
@@ -28,7 +33,7 @@ app.use(session({
 
 const db = require('./models')
 
-app.use('/api' , usersRoutes , ProductsRoutes, brandsRoutes
+app.use('/api' , usersRoutes , productsRoutes, brandsRoutes , uploadsRoutes , imagesRoutes , colorsRoutes
 )
 // app.use('/api' , ProductsRoutes )
 // app.use('/api' ,  brandsRoutes )

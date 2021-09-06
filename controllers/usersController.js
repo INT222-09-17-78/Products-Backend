@@ -35,14 +35,15 @@ exports.createUserAndUploadPic = async (req, res, next) => {
         .catch(err => {
           err.errors.forEach((error) => {
             console.log(error)
+            if(!(!error.validatorKey)){
             if (error.validatorKey == 'not_unique') {
               error.message = error.value + ' is already in use'
               res.status(500).json({
                 message: error.message || "Some error occurred while creating the User."
               });
-            }
+            }}
           })
-
+          
           if (req.file) {
             fs.unlink('./images/' + req.file.filename)
           }

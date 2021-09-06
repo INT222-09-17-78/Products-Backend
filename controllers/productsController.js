@@ -1,14 +1,47 @@
 const db = require('../models')
 const Products = db.products
-exports.createProduct = (req,res) => {
+const Colors = db.colors
+exports.createProduct = async  (req,res) => {
     console.log(req.body)
-    Products.create({
+    var values = [];
+    const images = [
+      "ColorID","asdasd"
+      
+    
+     
+    ]
+    try {
+      const color = await Colors.findAll()
+      console.log(color)
+    const product = await Products.create({
         ProdName : req.body.ProdName,
         Price: req.body.Price,
         Description: req.body.Description,
         ProduceDate: req.body.ProduceDate,
         BrandID: req.body.BrandID
-    }).then(data => res.json(data))
+    })
+    // for await (let x of color) {
+    //   console.log(x.key)
+      // data = await product.addColors(x.ColorID,{through: {ImageName:images[x]}})
+    // }
+    for (let i = 0; i < color.length; i++) {
+      await product.addColors(color[i].ColorID,{through: {ImageName:images[i]}})
+    }
+    
+    
+    
+    
+    
+    res.status(200).json(data)
+    } catch (error) {
+      if(!(!error.parent)){
+      if((error.parent.code).includes('ER_NO_REFERENCED_ROW')){
+        error.message = 'Maybe you your input brand or color does not exist'
+      }}
+      res.status(500).json({
+        message: error.message || "Some error occurred while creating the Product."
+      });
+    }
     
 }
 

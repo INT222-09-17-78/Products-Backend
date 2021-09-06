@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt')
 exports.validateAndCreateOrUpdateUser = async (req, res) => {
-    console.log(req.body)
-    console.log('log')
+    // console.log(req.body)
+    // console.log('log')
     const {
       username,
       password: plainTextPassword,
@@ -12,7 +12,6 @@ exports.validateAndCreateOrUpdateUser = async (req, res) => {
     let image = null
     let role = 'staff'
     const salt = await bcrypt.genSalt()
-    const password = await bcrypt.hash(plainTextPassword, salt)
     const mailFormat = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/);
     const mobileFormat = new RegExp(/^(0[689]{1})+([0-9]{8})+$/);
     if (req.file) {
@@ -21,7 +20,6 @@ exports.validateAndCreateOrUpdateUser = async (req, res) => {
     // if (req.role) {
     //   role = req.role
     // }
-  
     if (mobileFormat.test(emailOrMobile) == false && mailFormat.test(emailOrMobile) == false) {
       res.status(400).json({
         message: "Enter your moblie or email only"
@@ -68,6 +66,7 @@ exports.validateAndCreateOrUpdateUser = async (req, res) => {
   
       return false
     }
+    const password = await bcrypt.hash(plainTextPassword, salt)
     const user = {
         username: username,
         password: password,
