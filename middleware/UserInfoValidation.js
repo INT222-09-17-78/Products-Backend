@@ -45,7 +45,7 @@ exports.validateAndCreateOrUpdateUser = async (req, res) => {
   
       return false
     }
-    if (plainTextPassword.trim().length <= 8) {
+    if (plainTextPassword.trim().length < 8) {
       res.status(400).json({
         message: "Password is toosmall. Should be atleast 8 characters"
       })

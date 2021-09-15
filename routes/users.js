@@ -5,7 +5,7 @@ const auth = require('../middleware/auth')
 const loginLogoutController = require('../controllers/loginLogoutController')
 const usersController = require('../controllers/usersController')
 const adminsController = require('../controllers/adminsController')
-const uplaod = require('../controllers/uploadsController')
+const upload = require('../controllers/uploadsController')
 // router.post('/users/userAndUpload' ,(req,res,next)=>{
 //     (upload.uploadUserPromise)(req,res  , (err) => {
 //         if(err){
@@ -27,7 +27,7 @@ const uplaod = require('../controllers/uploadsController')
 // } , (usersController.updateUserAndUploadPic))
 // router.post('/upload',upload.uploadUser.single('file'),userController.createUserAndUploadPic)
 router.post('/users/userAndUpload', usersController.createUserAndUploadPic)
-router.put('/users/userAndUpload', uplaod.uploadFile ,auth.validateLoggedIn, auth.validateToken, usersController.createUserAndUploadPic)
+router.put('/users/userAndUpload', upload.uploadFile ,auth.validateLoggedIn, auth.validateToken, usersController.createUserAndUploadPic)
 router.get('/users' , usersController.findAll)
 // router.get('/session' , userController.getSession)
 router.put('/users/admin/updateRole', auth.validateLoggedIn, auth.validateToken ,auth.ValidateAdmin,adminsController.updateRole)

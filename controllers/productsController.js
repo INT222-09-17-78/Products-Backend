@@ -2,7 +2,7 @@ const db = require('../models')
 const Products = db.products
 const Colors = db.colors
 exports.createProduct = async  (req,res) => {
-    console.log(req.body)
+    console.log(req.files)
     var values = [];
     const images = [
       "ColorID","asdasd"
@@ -42,7 +42,10 @@ exports.createProduct = async  (req,res) => {
         message: error.message || "Some error occurred while creating the Product."
       });
     }
-    
+    //do loop to delete file if error
+    // if (req.files) {
+    //   fs.unlink('./images/' + req.file.filename)
+    // }
 }
 
 exports.findProductById = (req,res) => {
