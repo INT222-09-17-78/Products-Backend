@@ -20,30 +20,32 @@ findByPk = (req, res) => {
 
 
 exports.createUserAndUploadPic = async (req, res, next) => {
-  userInfoValid.validateAndCreateOrUpdateUser(req, res).then((data) => {
+  userInfoValid.validateAndCreateUser(req, res).then(async (data) => {
     if (data == false) {
       if (req.file) {
         fs.unlink('./images/' + req.file.filename)
       }
       return
     } else {
-      Users.create(data)
+      await Users.create(data)
         .then(data => {
           res.status(200).json(data);
           next()
         })
         .catch(err => {
-          err.errors.forEach((error) => {
-            console.log(error)
-            if(!(!error.validatorKey)){
-            if (error.validatorKey == 'not_unique') {
-              error.message = error.value + ' is already in use'
-              res.status(500).json({
-                message: error.message || "Some error occurred while creating the User."
-              });
-            }}
+          console.log(err.errors)
+          if(err.errors){
+          err.errors.forEach((err) => {
+            console.log(err.message)    
+            if(err.validatorKey && err.validatorKey == 'not_unique'){
+              err.message = err.value + ' is already in use' 
+            }
+            res.status(500).json({
+              message: err.message || "Some error occurred while creating the User."
+            });  
           })
-          
+        }
+        
           if (req.file) {
             fs.unlink('./images/' + req.file.filename)
           }
@@ -65,7 +67,7 @@ exports.updateUserAndUploadPic = async (req, res, next) => {
     });
   }
 
-  userInfoValid.validateAndCreateOrUpdateUser(req, res).then((data) => {
+  userInfoValid.validateAndUpdateUser(req, res).then((data) => {
     if (data == false) {
       if (req.file) {
         fs.unlink('./images/' + req.file.filename)
@@ -76,15 +78,17 @@ exports.updateUserAndUploadPic = async (req, res, next) => {
         res.status(200).json(data)
       }).catch(err => {
 
-        err.errors.forEach((error) => {
-          console.log(error)
-          // if (error.validatorKey == 'not_unique') {
-          //   error.message = error.value + ' is already in use'
+        if(err.errors){
+          err.errors.forEach((err) => {
+            console.log(err.message)    
+            if(err.validatorKey && err.validatorKey == 'not_unique'){
+              err.message = err.value + ' is already in use' 
+            }
             res.status(500).json({
-              message: error.message || "Some error occurred while updating the User."
-            });
-          // }
-        })
+              message: err.message || "Some error occurred while creating the User."
+            });  
+          })
+        }
 
         if (req.file) {
           fs.unlink('./images/' + req.file.filename)

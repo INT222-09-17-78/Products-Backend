@@ -48,10 +48,11 @@ exports.loggedInUser = (req, res) => {
     } else {
       const token = auth.createTokens(user)
       res.cookie("access-token", token, {
-        maxAge: 60 * 60 * 24 * 30 * 1000
+        maxAge: 60 * 60 * 24 * 30 * 1000,
+        httpOnly: true,
       })
-      req.session.username = user.username
-      console.log(req.session)
+      // req.session.username = user.username
+      // console.log(req.session)
       console.log('login success')
       res.status(200).json({
         message: 'login success.',
@@ -64,18 +65,10 @@ exports.loggedInUser = (req, res) => {
 
 
   exports.logOut = (req, res) => {
-    //maybe checklogin เอาออกนะ
-    // if(req.session.username){
+ 
     res.cookie("access-token", null)
-    req.session.destroy((error) => {
-      if (error) {
-        res.status(500).json({
-          message: 'logout failed ' + error
-        })
-      } else {
         res.status(200).json({
           message: 'logout success'
         })
-      };
-    })
+         
   }

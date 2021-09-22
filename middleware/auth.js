@@ -17,39 +17,47 @@ const validateToken = (req,res,next) => {
     try{
         const validToken = verify(accessToken, "testToken");
         if(validToken){
+            req.token = validToken
             return next()
         }
     }catch(error){
-        return res.status(401).json({message: error})
+        return res.status(401).json({message: 'invalid token'})
         //"it's not right token maybe plese login first"
     }
 }
-const validateLoggedIn = (req, res, next) => {
-    console.log(req.session.username)
-    if (req.session.username) {
-      next()
-    } else {
-      res.status(401).json({
-        message: 'please login first'
-      })
-    }
-  }
+// const validateLoggedIn = (req, res, next) => {
+//     console.log(req.session.username)
+//     if (req.session.username) {
+//       next()
+//     } else {
+//       res.status(401).json({
+//         message: 'please login first'
+//       })
+//     }
+//   }
 
-const ValidateAdmin = (req, res, next) => {
-  console.log(req.session.username)
-  const user = Users.findOne({
-    where: {
-      username: req.session.username,
-      role: 'Admin'
-    }
-})
-  if(user == null){
-    res.status(401).json({
-      message: 'you are not Admin'
+const ValidateAdmin = async (req, res, next) => {
+  try{
+      const user = await Users.findOne({
+        where: {
+          id: req.token.id,
+          role: 'Admin'
+        }
+        
     })
-  }else{
-    next()
-  }
+      if(user == null){
+        res.status(401).json({
+          message: 'you are not Admin'
+        })
+      }else{
+        next()
+      }
+    
+}catch(error){
+    return res.status(401).json({message: error.message})
+    //"it's not right token maybe plese login first"
+}
+  
 }
 
-module.exports = {createTokens,validateToken,validateLoggedIn,ValidateAdmin}
+module.exports = {createTokens,validateToken,ValidateAdmin}
