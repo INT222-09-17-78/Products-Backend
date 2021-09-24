@@ -43,9 +43,10 @@ exports.validateAndUpdateUser = async (req, res) => {
 
   const {
     username,
-    password,
+   
     email,
-    mobile
+    mobile,
+    role
   } = req.body
 
   let image = null
@@ -56,10 +57,11 @@ exports.validateAndUpdateUser = async (req, res) => {
 
   const user = {
     username: username,
-    password: password,
+   
     email: email,
     mobile: mobile,
-    image: image
+    image: image,
+    role: role,
   };
   return user
 

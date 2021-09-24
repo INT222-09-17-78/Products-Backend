@@ -9,9 +9,9 @@ const uploadFile = async (req, res, next) => {
   try {
     await upload.uploadUserPromise(req, res);
 
-    if (req.file == undefined) {
-      return res.status(400).send({ message: "Choose a file to upload" });
-    }
+    // if (req.file == undefined) {
+    //   return res.status(400).send({ message: "Choose a file to upload" });
+    // }
 
     next()
   } catch (err) {

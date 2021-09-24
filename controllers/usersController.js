@@ -65,10 +65,11 @@ exports.updateUserAndUploadPic = async (req, res, next) => {
     res.status(500).json({
       message: "cant find this user"
     });
+    
   }
 
   userInfoValid.validateAndUpdateUser(req, res).then((data) => {
-    if (data == false) {
+    if (data == false || !User) {
       if (req.file) {
         fs.unlink('./images/' + req.file.filename)
       }

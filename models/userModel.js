@@ -62,12 +62,12 @@ module.exports = (sequelize, DataTypes) => {
             user.password = await bcrypt.hash(user.password, salt);
         }
     });
-    Users.addHook('beforeUpdate', async (user) => {
-        console.log()
-        if (user.password && user.changed('password')) {
-            const salt = await bcrypt.genSalt();
-            user.password = await bcrypt.hash(user.password, salt);
-        }
-    });
+    // Users.addHook('beforeUpdate', async (user) => {
+    //     console.log()
+    //     if (user.password && user.changed('password')) {
+    //         const salt = await bcrypt.genSalt();
+    //         user.password = await bcrypt.hash(user.password, salt);
+    //     }
+    // });
     return Users
 }
