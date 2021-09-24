@@ -7,7 +7,7 @@ const colorsRoutes = require('./routes/colors')
 const uploadsRoutes = require('./routes/upload')
 const imagesRoutes = require('./routes/images')
 // const cookieSession = require('cookie-session')
-const session = require('express-session')
+// const session = require('express-session')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 
@@ -23,11 +23,11 @@ app.use(express.urlencoded({
   extended: true
 }));
 
-app.use(session({
-  secret: 'integratedProj2',
-  resave: false,
-  saveUninitialized: true
-}))
+// app.use(session({
+//   secret: 'integratedProj2',
+//   resave: false,
+//   saveUninitialized: true
+// }))
 
 
 
