@@ -5,16 +5,18 @@ const db = require('../models')
 const Users = db.users
 const bcrypt = require('bcrypt')
 exports.loggedInUser = (req, res) => {
-    console.log(req.session.username)
-    if (req.session.username) {
-      res.status(200).json({
-        loggedIn: true,
-        user: req.session.username
-      })
+    
+    if (!req.token) {
+      
       // next()
-    } else {
       res.status(401).json({
         loggedIn: false
+      })
+    } else {
+      console.log(req.token.username)
+      res.status(200).json({
+        loggedIn: true,
+        user: req.token.username
       })
     }
   }

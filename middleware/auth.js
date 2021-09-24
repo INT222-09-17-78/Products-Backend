@@ -3,7 +3,7 @@ const db = require('../models')
 const Users = db.users
 
 const createTokens = (user) => {
-    const accessToken = sign({id:user.id},"testToken")
+    const accessToken = sign({id:user.id,username:user.username},"testToken")
     return accessToken
 }
 

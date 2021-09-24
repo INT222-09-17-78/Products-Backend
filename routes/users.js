@@ -33,7 +33,7 @@ router.get('/users' , usersController.findAll)
 router.put('/users/admin/updateRole',  auth.validateToken ,auth.ValidateAdmin,adminsController.updateRole)
 // router.get('/findUserById/:id' , userController.findByPk)
 router.post('/users/login' , loginLogoutController.logIn)
-router.get('/users/login' , loginLogoutController.loggedInUser)
+router.get('/users/login' ,auth.validateToken, loginLogoutController.loggedInUser)
 router.get('/users/logout' , auth.validateToken  , loginLogoutController.logOut)
 router.get('/users/findUserByUsername/' , usersController.findByUsername)
 
