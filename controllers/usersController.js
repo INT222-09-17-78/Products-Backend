@@ -2,21 +2,22 @@
 const db = require('../models')
 const Users = db.users
 const fs = require('fs/promises')
-const userInfoValid = require('../middleware/UserInfoValidation')
+const userInfoValid = require('../middleware/UserInfoValidation');
+const e = require('express');
 
-findByPk = (req, res) => {
-  const id = req.body.id;
-  Users.findByPk(id)
-    .then(data => {
-      res.json(data);
-      console.log(data)
-    })
-    .catch(err => {
-      res.status(500).json({
-        message: "Error retrieving Users with id=" + id
-      });
-    });
-};
+// exports.findByPk = (req, res) => {
+//   const id = req.body.id;
+//   Users.findByPk(id)
+//     .then(data => {
+//       res.json(data);
+//       console.log(data)
+//     })
+//     .catch(err => {
+//       res.status(500).json({
+//         message: "Error retrieving Users with id=" + id
+//       });
+//     });
+// };
 
 
 exports.createUserAndUploadPic = async (req, res, next) => {
@@ -32,22 +33,22 @@ exports.createUserAndUploadPic = async (req, res, next) => {
           res.status(200).json(data);
           next()
         })
-        .catch(err => {
-          console.log(err.errors)
+        .catch(err => {        
+          // console.log(err.errors)
           if(err.errors){
-            
-          err.errors.forEach((err) => {
-            console.log(err.message)    
-            if(err.validatorKey && err.validatorKey == 'not_unique'){
-              err.message = err.value + ' is already in use' 
-            }
-            
-            
-          })
-          res.status(500).json({
-            message: err.message || "Some error occurred while creating the User."
-          });  
+            // console.log(err.errors.value)  
+            for (let error of err.errors) {
+            console.log(error.message)    
+            if(error.validatorKey && error.validatorKey == 'not_unique'){
+              err.message = error.value + ' is already in use' 
+            }else{ 
+              err.message = error.message
+            }        
+          }  
         }
+        res.status(500).json({
+          message: err.message || "Some error occurred while creating the User."
+        }); 
         
           if (req.file) {
             fs.unlink('./images/' + req.file.filename)
@@ -80,19 +81,22 @@ exports.updateUserAndUploadPic = async (req, res, next) => {
     } else {
       User.update(data).then(data => {
         res.status(200).json(data)
-      }).catch(err => {
-
+      }).catch(err => {        
+        // console.log(err.errors)
         if(err.errors){
-          err.errors.forEach((err) => {
-            console.log(err.message)    
-            if(err.validatorKey && err.validatorKey == 'not_unique'){
-              err.message = err.value + ' is already in use' 
-            }
-            res.status(500).json({
-              message: err.message || "Some error occurred while creating the User."
-            });  
-          })
-        }
+          // console.log(err.errors.value)  
+          for (let error of err.errors) {
+          console.log(error.message)    
+          if(error.validatorKey && error.validatorKey == 'not_unique'){
+            err.message = error.value + ' is already in use' 
+          }else{ 
+            err.message = error.message
+          }        
+        }  
+      }
+      res.status(500).json({
+        message: err.message || "Some error occurred while creating the User."
+      }); 
 
         if (req.file) {
           fs.unlink('./images/' + req.file.filename)
