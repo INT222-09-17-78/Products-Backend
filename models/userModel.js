@@ -4,10 +4,15 @@ module.exports = (sequelize, DataTypes) => {
         username: {
             type: DataTypes.STRING,
             unique: true,
+            allowNull: false,
             validate: {
                 len: {
                     args:[6, 25],
                     msg: 'Username should between 6 and 25 characters'
+                },
+                notNull: {
+                    args:true,
+                    msg:'username cannot be null'
                 }
             }
         },
@@ -23,8 +28,13 @@ module.exports = (sequelize, DataTypes) => {
         },
         password: {
             type: DataTypes.STRING,
+            allowNull: false,
             validate: {
-                len: [8],  
+                len: [8],
+                notNull: {
+                    args:true,
+                    msg:'password cannot be null'
+                }  
             }
         },
         mobile: {
@@ -39,11 +49,16 @@ module.exports = (sequelize, DataTypes) => {
         },
         role: {
             type: DataTypes.STRING,
+            allowNull: false,
             validate: {
                 isIn: {
                     args: [['Staff', 'Admin']],
                     msg: "Pleas input Admin or Staff only "
-                  }
+                  },
+                  notNull: {
+                    args:true,
+                    msg:'role cannot be null'
+                }
             }
         },
         image: {

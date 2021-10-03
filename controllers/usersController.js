@@ -35,15 +35,18 @@ exports.createUserAndUploadPic = async (req, res, next) => {
         .catch(err => {
           console.log(err.errors)
           if(err.errors){
+            
           err.errors.forEach((err) => {
             console.log(err.message)    
             if(err.validatorKey && err.validatorKey == 'not_unique'){
               err.message = err.value + ' is already in use' 
             }
-            res.status(500).json({
-              message: err.message || "Some error occurred while creating the User."
-            });  
+            
+            
           })
+          res.status(500).json({
+            message: err.message || "Some error occurred while creating the User."
+          });  
         }
         
           if (req.file) {

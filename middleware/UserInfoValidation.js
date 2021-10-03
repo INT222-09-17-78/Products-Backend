@@ -3,13 +3,14 @@ exports.validateAndCreateUser = async (req, res) => {
   const {
     username,
     password,
-    emailOrMobile
+    emailOrMobile,
+    role
   } = req.body
   let email = null
   let mobile = null
   let image = null
-  let role = 'Staff'
-
+  // let role = 'Staff'
+  
   const mailFormat = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/);
   const mobileFormat = new RegExp(/^(0[689]{1})+([0-9]{8})+$/);
   if (req.file) {
