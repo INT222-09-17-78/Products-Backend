@@ -65,7 +65,7 @@ exports.updateUserAndUploadPic = async (req, res, next) => {
     res.status(500).json({
       message: "cant find this user"
     });
-    
+    return
   }
 
   userInfoValid.validateAndUpdateUser(req, res).then((data) => {
@@ -99,14 +99,31 @@ exports.updateUserAndUploadPic = async (req, res, next) => {
   })
 }
 
-
+exports.delete = async (req, res) => {
+  const User = await Users.findOne({
+    where: {
+      id: req.params.id
+    }
+  });
+  if (!User) {
+    res.status(500).json({
+      message: "cant find this user"
+    });
+    return
+  }
+  User.destroy().then(data => {
+    res.status(200).json({message : 'deleted user ' + data.username})
+  }).catch(err => {
+    res.status(500).json(err.message)
+  })
+}
 
 exports.findAll = (req, res) => {
   // const username = req.query.username;
   // var condition = username ? { username: { [Op.like]: `%${username}%` } } : null;
 
   // set in param if have condition {where: condition}
-  users = Users.findAll()
+  Users.findAll()
     .then(data => {
       res.json(data);
     })
