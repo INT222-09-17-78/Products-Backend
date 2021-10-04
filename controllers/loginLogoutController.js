@@ -13,11 +13,21 @@ exports.loggedInUser = (req, res) => {
         loggedIn: false
       })
     } else {
-      console.log(req.token.username)
-      res.status(200).json({
-        loggedIn: true,
-        user: req.token.username
-      })
+      const id = req.token.id;
+        Users.findByPk(id)
+          .then(data => {
+            // console.log(data.username)
+            res.status(200).json({
+              loggedIn: true,
+              user: data.username
+            })
+          })
+          .catch(err => {
+            res.status(500).json({
+              message: "Error retrieving Users with id=" + id
+            });
+          });
+     
     }
   }
 
@@ -50,7 +60,7 @@ exports.loggedInUser = (req, res) => {
     } else {
       const token = auth.createTokens(user)
       res.cookie("access-token", token, {
-        maxAge: 60 * 60 * 24 * 30 * 1000,
+        maxAge: 1800000,
         httpOnly: true,
       })
       // req.session.username = user.username
@@ -68,9 +78,15 @@ exports.loggedInUser = (req, res) => {
 
   exports.logOut = (req, res) => {
  
-    res.cookie("access-token", null)
-        res.status(200).json({
-          message: 'logout success'
-        })
+    res.cookie("access-token", null).then(
+      res.status(200).json({
+        message: 'logout success'
+      })
+    ).catch(err => {
+      res.status(200).json({
+        message: err.message
+      })
+    })
+        
          
   }

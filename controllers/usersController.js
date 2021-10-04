@@ -3,7 +3,7 @@ const db = require('../models')
 const Users = db.users
 const fs = require('fs/promises')
 const userInfoValid = require('../middleware/UserInfoValidation');
-const e = require('express');
+// const e = require('express');
 
 // exports.findByPk = (req, res) => {
 //   const id = req.body.id;
@@ -119,6 +119,10 @@ exports.delete = async (req, res) => {
     return
   }
   User.destroy().then(data => {
+    // console.log(req.token.id)
+    if(req.params.id == req.token.id){
+      res.cookie("access-token", null)
+    }
     res.status(200).json({message : 'deleted user ' + data.username})
   }).catch(err => {
     res.status(500).json(err.message)

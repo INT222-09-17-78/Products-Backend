@@ -10,6 +10,7 @@ const imagesRoutes = require('./routes/images')
 // const session = require('express-session')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
+require('dotenv').config()
 
 global.__basedir = __dirname; 
 app.use(cors(

@@ -3,7 +3,7 @@ const db = require('../models')
 const Users = db.users
 
 const createTokens = (user) => {
-    const accessToken = sign({id:user.id,username:user.username},"testToken")
+    const accessToken = sign({id:user.id},"testToken")
     return accessToken
 }
 
@@ -17,6 +17,7 @@ const validateToken = (req,res,next) => {
     try{
         const validToken = verify(accessToken, "testToken");
         if(validToken){
+            // console.log(validToken)
             req.token = validToken
             return next()
         }
