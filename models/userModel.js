@@ -1,8 +1,13 @@
 const bcrypt = require('bcrypt')
 module.exports = (sequelize, DataTypes) => {
     const Users = sequelize.define('Users', {
+        id: {
+            type: DataTypes.INTEGER(10),
+            autoIncrement: true,
+            primaryKey: true
+        },
         username: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(45),
             unique: true,
             allowNull: false,
             validate: {
@@ -17,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
         email: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(45),
             unique: true,
             validate: {
                 isEmail: {
@@ -27,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
         password: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(90),
             allowNull: false,
             validate: {
                 len: [8] ,
@@ -38,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
         mobile: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(10),
             unique: true,
             validate: {
                 is:{ 
@@ -48,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
         role: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(45),
             allowNull: false,
             validate: {
                 isIn: {
@@ -63,7 +68,7 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
         image: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING(50)
         },
 
 

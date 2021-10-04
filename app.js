@@ -15,7 +15,7 @@ require('dotenv').config()
 global.__basedir = __dirname; 
 app.use(cors(
   {
-    origin:'http://localhost:3000',credentials:true,//access-control-allow-credentials:true optionSuccessStatus:200}
+    origin: process.env.CORS,credentials:true,//access-control-allow-credentials:true optionSuccessStatus:200}
   }
 ))
 app.use(express.json());
@@ -43,7 +43,7 @@ app.use('/api' , usersRoutes , productsRoutes, brandsRoutes , uploadsRoutes , im
 //   });
 
 db.sequelize.sync({force: true}).then((res) => {
-    app.listen(5000, () => {
-        console.log('server is running on port 5000')
+    app.listen(process.env.PORT, () => {
+        console.log('server is running on port '+process.env.PORT)
     })
 })

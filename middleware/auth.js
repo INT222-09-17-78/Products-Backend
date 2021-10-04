@@ -1,9 +1,10 @@
 const {sign,verify} = require('jsonwebtoken')
 const db = require('../models')
 const Users = db.users
+require('dotenv').config()
 
 const createTokens = (user) => {
-    const accessToken = sign({id:user.id},"testToken")
+    const accessToken = sign({id:user.id},process.env.JWT_SECRET)
     return accessToken
 }
 
@@ -15,7 +16,7 @@ const validateToken = (req,res,next) => {
     }
 
     try{
-        const validToken = verify(accessToken, "testToken");
+        const validToken = verify(accessToken, process.env.JWT_SECRET);
         if(validToken){
             // console.log(validToken)
             req.token = validToken
