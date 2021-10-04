@@ -77,16 +77,13 @@ exports.loggedInUser = (req, res) => {
 
 
   exports.logOut = (req, res) => {
- 
-    res.cookie("access-token", null).then(
-      res.status(200).json({
-        message: 'logout success'
-      })
-    ).catch(err => {
-      res.status(200).json({
-        message: err.message
-      })
-    })
+    try {
+      res.clearCookie("access-token")
+      res.status(200).json({message: 'logout success'})
+    } catch (error) {
+      res.status(500).json({message: error.message})
+    }
+    
         
          
   }

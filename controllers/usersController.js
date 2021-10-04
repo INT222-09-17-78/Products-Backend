@@ -121,11 +121,11 @@ exports.delete = async (req, res) => {
   User.destroy().then(data => {
     // console.log(req.token.id)
     if(req.params.id == req.token.id){
-      res.cookie("access-token", null)
+      res.clearCookie("access-token")
     }
     res.status(200).json({message : 'deleted user ' + data.username})
   }).catch(err => {
-    res.status(500).json(err.message)
+    res.status(500).json({message: err.message})
   })
 }
 
