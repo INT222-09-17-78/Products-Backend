@@ -42,7 +42,7 @@ app.use('/api' , usersRoutes , productsRoutes, brandsRoutes , uploadsRoutes , im
 //     res.json({ message: "Welcome to bezkoder application." });
 //   });
 
-db.sequelize.sync({force: true}).then((res) => {
+db.sequelize.sync().then((res) => {
     app.listen(process.env.PORT, () => {
         console.log('server is running on port '+process.env.PORT)
     })
