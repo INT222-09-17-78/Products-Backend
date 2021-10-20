@@ -3,7 +3,9 @@ module.exports = (sequelize,DataTypes) => {
         BrandID : {
             type: DataTypes.INTEGER,
             primaryKey: true,
-            autoIncrement: true
+            autoIncrement: true,
+            unique: true,
+            allowNull: false
 
         },
         BrandName:{

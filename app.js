@@ -34,7 +34,7 @@ app.use(express.urlencoded({
 
 const db = require('./models')
 
-app.use('/api' , usersRoutes , productsRoutes, brandsRoutes , uploadsRoutes , imagesRoutes , colorsRoutes
+app.use('/api' , usersRoutes , productsRoutes, brandsRoutes , uploadsRoutes , colorsRoutes
 )
 // app.use('/api' , ProductsRoutes )
 // app.use('/api' ,  brandsRoutes )
@@ -42,7 +42,7 @@ app.use('/api' , usersRoutes , productsRoutes, brandsRoutes , uploadsRoutes , im
 //     res.json({ message: "Welcome to bezkoder application." });
 //   });
 
-db.sequelize.sync().then((res) => {
+db.sequelize.sync({force:true}).then((res) => {
     app.listen(process.env.PORT, () => {
         console.log('server is running on port '+process.env.PORT)
     })

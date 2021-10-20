@@ -10,8 +10,8 @@ exports.createColor = (req,res) => {
 
 
 
-// exports.getAllBrands = (req,res) => {
-//     Colors.findAll({
-//         include: ["Products"]
-//     }).then(data => res.json(data))
-// }
+exports.getAllColors = (req,res) => {
+    Colors.findAll({
+        include: ["Products"]
+    }).then(data => res.json(data))
+}

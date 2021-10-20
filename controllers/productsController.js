@@ -1,18 +1,18 @@
 const db = require('../models')
 const Products = db.products
 const Colors = db.colors
+const fs = require('fs/promises')
 exports.createProduct = async  (req,res) => {
-    console.log(req.files)
-    var values = [];
-    const images = [
-      "ColorID","asdasd"
-      
-    
+    console.log(req.file)
+    // const images = [
+    //   "ColorID","asdasd"
+    const colors = req.body.colors
+    console.log(colors[0].ColorID)
      
-    ]
+    // ]
     try {
-      const color = await Colors.findAll()
-      console.log(color)
+      // const color = await Colors.findAll()
+      // console.log(color)
     const product = await Products.create({
         ProdName : req.body.ProdName,
         Price: req.body.Price,
@@ -24,16 +24,16 @@ exports.createProduct = async  (req,res) => {
     //   console.log(x.key)
       // data = await product.addColors(x.ColorID,{through: {ImageName:images[x]}})
     // }
-    for (let i = 0; i < color.length; i++) {
-      await product.addColors(color[i].ColorID,{through: {ImageName:images[i]}})
+    const data = []
+    for (let i = 0; i < colors.length; i++) {
+      data.push(await product.addColors(colors[i].ColorID,{through: {ImageName:req.file.originalname}}))
     }
     
-    
-    
-    
-    
-    res.status(200).json(data)
+    res.status(200).json(
+      {prouct:product,
+       colors:data})
     } catch (error) {
+      
       if(!(!error.parent)){
       if((error.parent.code).includes('ER_NO_REFERENCED_ROW')){
         error.message = 'Maybe you your input brand or color does not exist'
@@ -43,9 +43,9 @@ exports.createProduct = async  (req,res) => {
       });
     }
     //do loop to delete file if error
-    // if (req.files) {
-    //   fs.unlink('./images/' + req.file.filename)
-    // }
+    if (req.file) {
+      fs.unlink('./images/' + req.file.filename)
+    }
 }
 
 exports.findProductById = (req,res) => {
@@ -74,6 +74,6 @@ exports.findProductByBrand = (req,res) => {
 
 exports.getAllProducts = (req,res) => {
     Products.findAll({
-        include: ["Brands"]
+        include: ["Brands","Colors"]
     }).then(data => res.json(data))
 }

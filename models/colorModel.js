@@ -3,7 +3,9 @@ module.exports = (sequelize,DataTypes) => {
         ColorID : {
             type: DataTypes.INTEGER,
             primaryKey: true,
-            autoIncrement: true
+            autoIncrement: true,
+            unique: true,
+            allowNull: false
 
         },
         ColorName:{
