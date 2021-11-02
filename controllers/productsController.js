@@ -1,6 +1,6 @@
 const db = require('../models')
 const Products = db.products
-const Colors = db.colors
+// const Colors = db.colors
 const fs = require('fs/promises')
 exports.createProduct = async  (req,res) => {
     console.log(req.file)
@@ -18,15 +18,16 @@ exports.createProduct = async  (req,res) => {
         Price: req.body.Price,
         Description: req.body.Description,
         ProduceDate: req.body.ProduceDate,
-        BrandID: req.body.BrandID
+        BrandID: req.body.BrandID,
+        image: req.body.image
     })
     // for await (let x of color) {
     //   console.log(x.key)
       // data = await product.addColors(x.ColorID,{through: {ImageName:images[x]}})
     // }
-    const data = []
+    // const data = []
     for (let i = 0; i < colors.length; i++) {
-      data.push(await product.addColors(colors[i].ColorID,{through: {ImageName:req.file.originalname}}))
+      data.push(await product.addColors(colors[i].ColorID,{through: {ImageName:colors[i].name}}))
     }
     
     res.status(200).json(

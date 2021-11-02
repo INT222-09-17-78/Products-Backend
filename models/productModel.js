@@ -21,6 +21,9 @@ module.exports = (sequelize,DataTypes) => {
         ProduceDate:{
             type: DataTypes.DATE
         },
+        image:{
+            type: DataTypes.STRING
+        },
         BrandID:{
             type: DataTypes.INTEGER,
             allowNull: false,
