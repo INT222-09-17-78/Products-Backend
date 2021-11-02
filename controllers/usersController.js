@@ -20,15 +20,15 @@ const userInfoValid = require('../middleware/UserInfoValidation');
 // };
 
 
-exports.createUserAndUploadPic = async (req, res, next) => {
-  userInfoValid.validateAndCreateUser(req, res).then(async (data) => {
+exports.createUserAndUploadPic = (req, res, next) => {
+  userInfoValid.validateAndCreateUser(req, res).then((data) => {
     if (data == false) {
       if (req.file) {
         fs.unlink('./images/' + req.file.filename)
       }
       return
     } else {
-      await Users.create(data)
+      Users.create(data)
         .then(data => {
           res.status(200).json(data);
           next()
