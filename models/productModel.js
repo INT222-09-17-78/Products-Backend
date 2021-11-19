@@ -24,17 +24,17 @@ module.exports = (sequelize,DataTypes) => {
         image:{
             type: DataTypes.STRING
         },
-        BrandID:{
+        Brands_BrandId:{
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
             model: 'Brands',
-            key: 'BrandID'
+            key: 'BrandId'
         },
         }
         
         
-    }
+    }, { timestamps: false }
         )
        
     return Products

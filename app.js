@@ -3,7 +3,7 @@ const app = express()
 const usersRoutes = require('./routes/users')
 const brandsRoutes = require('./routes/brands')
 const productsRoutes = require('./routes/products')
-const colorsRoutes = require('./routes/colors')
+const SizesRoutes = require('./routes/sizes')
 const uploadsRoutes = require('./routes/upload')
 const imagesRoutes = require('./routes/images')
 // const cookieSession = require('cookie-session')
@@ -34,7 +34,7 @@ app.use(express.urlencoded({
 
 const db = require('./models')
 
-app.use('/api' , usersRoutes , productsRoutes, brandsRoutes , uploadsRoutes , colorsRoutes
+app.use('/api' , usersRoutes , productsRoutes, brandsRoutes , uploadsRoutes , SizesRoutes
 )
 // app.use('/api' , ProductsRoutes )
 // app.use('/api' ,  brandsRoutes )
