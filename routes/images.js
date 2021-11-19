@@ -1,8 +1,9 @@
-// const express = require('express')
-// const router = express.Router()
-// const image = require('../controllers/imagesController')
+const express = require('express')
+const router = express.Router()
+const image = require('../controllers/imagesController')
+const uplaod = require('../controllers/uploadsController')
 
-// router.get('/getimage', image.findall)
-// router.get('/add' , image.addColor)
+router.post('/create/image', uplaod.uploadFile,image.createImage)
+router.get('/show/images' , image.getAllImages)
 
-// module.exports = router;
+module.exports = router;

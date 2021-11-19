@@ -9,22 +9,22 @@ module.exports = (sequelize,DataTypes) => {
 
         },
         ProdName:{
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(45),
+            allowNull: false,
 
         },
         Price:{
-            type: DataTypes.DOUBLE
+            type: DataTypes.DOUBLE(8,2),
+            allowNull: false,
         },
         Description:{
-            type: DataTypes.STRING
+            type: DataTypes.STRING(300)
         },
         ProduceDate:{
-            type: DataTypes.DATE
+            type: DataTypes.DATE,
+            allowNull: false,
         },
-        image:{
-            type: DataTypes.STRING
-        },
-        Brands_BrandId:{
+        BrandId:{
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {

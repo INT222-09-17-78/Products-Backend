@@ -1,13 +1,16 @@
 const db = require('../models')
 const Products = db.products
 // const Colors = db.colors
-const fs = require('fs/promises')
+// const fs = require('fs/promises')
 exports.createProduct = async  (req,res) => {
-    console.log(req.file)
+    // console.log(req.file)
     // const images = [
     //   "ColorID","asdasd"
     const sizes = req.body.sizes
-    console.log(colors[0].ColorID)
+    
+    // const sizes = [{"SizeName":"large"}]
+    // console.log(sizes.SizeName)
+    // console.log(colors[0].ColorID)
      
     // ]
     try {
@@ -18,16 +21,17 @@ exports.createProduct = async  (req,res) => {
         Price: req.body.Price,
         Description: req.body.Description,
         ProduceDate: req.body.ProduceDate,
-        BrandID: req.body.BrandID,
-        image: req.body.image
+        BrandId: req.body.BrandId,
+        // image: req.body.image
     })
     // for await (let x of color) {
     //   console.log(x.key)
       // data = await product.addColors(x.ColorID,{through: {ImageName:images[x]}})
     // }
     const data = []
-    for (let i = 0; i < colors.length; i++) {
-      data.push(await product.addSizes(sizes[i].SizeName,{through: {ImageName:'sizes[i].name',Colors:'sizes[i].color'}}))
+    for (let i = 0; i < sizes.length; i++) {
+      // data.push(await product.addSizes(sizes[i].SizeName,{through: {ImageName:'sizes[i].name',Colors:'sizes[i].color'}}))
+      data.push(await product.addSizes(sizes[i].SizeName))
     }
     
     res.status(200).json(
@@ -44,9 +48,9 @@ exports.createProduct = async  (req,res) => {
       });
     }
     //do loop to delete file if error
-    if (req.file) {
-      fs.unlink('./images/' + req.file.filename)
-    }
+    // if (req.file) {
+    //   fs.unlink('./images/' + req.file.filename)
+    // }
 }
 
 exports.findProductById = (req,res) => {

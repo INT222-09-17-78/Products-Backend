@@ -34,7 +34,7 @@ app.use(express.urlencoded({
 
 const db = require('./models')
 
-app.use('/api' , usersRoutes , productsRoutes, brandsRoutes , uploadsRoutes , SizesRoutes
+app.use('/api' , usersRoutes , productsRoutes, brandsRoutes , uploadsRoutes , SizesRoutes , imagesRoutes
 )
 // app.use('/api' , ProductsRoutes )
 // app.use('/api' ,  brandsRoutes )

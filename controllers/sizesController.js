@@ -16,5 +16,7 @@ exports.createSize = (req,res) => {
 exports.getAllSizes = (req,res) => {
     Sizes.findAll({
         include: ["Products"]
-    }).then(data => res.json(data))
+    }).then(data => res.status(200).json(data)).catch(err => {
+        res.status(500).json({message : err.message})
+    })
 }

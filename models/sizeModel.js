@@ -1,7 +1,7 @@
 module.exports = (sequelize,DataTypes) => {
     const Sizes = sequelize.define('Sizes',{
         SizeName : {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(10),
             primaryKey: true,
             // autoIncrement: true,
             unique: true,
@@ -9,7 +9,8 @@ module.exports = (sequelize,DataTypes) => {
 
         },
         Description:{
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(45),
+            allowNull: false,
 
         },
         
