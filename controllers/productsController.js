@@ -6,7 +6,7 @@ exports.createProduct = async  (req,res) => {
     // console.log(req.file)
     // const images = [
     //   "ColorID","asdasd"
-    const sizes = req.body.sizes
+    const sizes = req.body.Sizes
     
     // const sizes = [{"SizeName":"large"}]
     // console.log(sizes.SizeName)
@@ -22,21 +22,23 @@ exports.createProduct = async  (req,res) => {
         Description: req.body.Description,
         ProduceDate: req.body.ProduceDate,
         BrandId: req.body.BrandId,
+        Image: req.body.Image
         // image: req.body.image
     })
     // for await (let x of color) {
     //   console.log(x.key)
       // data = await product.addColors(x.ColorID,{through: {ImageName:images[x]}})
     // }
-    const data = []
+    // const data = []
     for (let i = 0; i < sizes.length; i++) {
       // data.push(await product.addSizes(sizes[i].SizeName,{through: {ImageName:'sizes[i].name',Colors:'sizes[i].color'}}))
-      data.push(await product.addSizes(sizes[i].SizeName))
+      await product.addSizes(sizes[i].SizeName)
+      // data.push({Size_SizeName:sizes[i].SizeName})
     }
     
     res.status(200).json(
       {prouct:product,
-       colors:data})
+       sizes:sizes})
     } catch (error) {
       
       if(!(!error.parent)){
@@ -79,6 +81,6 @@ exports.findProductByBrand = (req,res) => {
 
 exports.getAllProducts = (req,res) => {
     Products.findAll({
-        include: ["Brands","Sizes"]
+        include: ["Brands","Sizes","Patterns"]
     }).then(data => res.json(data))
 }

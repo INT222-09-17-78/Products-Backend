@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const image = require('../controllers/imagesController')
+const pattern = require('../controllers/patternsController')
 const uplaod = require('../controllers/uploadsController')
 
-router.post('/create/image', uplaod.uploadFile,image.createImage)
-router.get('/show/images' , image.getAllImages)
+router.post('/create/image', uplaod.uploadFile,pattern.createPattern)
+router.get('/show/images' , pattern.getAllPatterns)
 
 module.exports = router;

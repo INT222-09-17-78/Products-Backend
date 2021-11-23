@@ -23,7 +23,7 @@ db.products = require("./productModel.js")(sequelize, DataTypes)
 db.brands = require("./brandModel.js")(sequelize, DataTypes)
 db.sizes = require("./sizeModel")(sequelize, DataTypes)
 db.products_sizes = require("./ProductsSizesModel")(sequelize, DataTypes)
-db.image = require("./imageModel")(sequelize, DataTypes)
+db.patterns = require("./patternModel")(sequelize, DataTypes)
 
 db.brands.hasMany(db.products, {
   foreignKey: 'BrandId',
@@ -35,12 +35,12 @@ db.products.belongsTo(db.brands, {
   as: "Brands"
 })
 
-db.products.hasMany(db.image, {
+db.products.hasMany(db.patterns, {
   foreignKey: 'ProdID',
-  as: "Images"
+  as: "Patterns"
 })
 
-db.image.belongsTo(db.products, {
+db.patterns.belongsTo(db.products, {
   foreignKey: 'ProdID',
   as: "Products"
 })

@@ -1,10 +1,10 @@
 const db = require('../models')
-const Image = db.image
+const Pattern = db.patterns
 const fs = require('fs/promises')
-exports.createImage = (req,res) => {
+exports.createPattern = (req,res) => {
     // console.log(req.body)
-    Image.create({
-        ImageName : req.body.ImageName,
+    Pattern.create({
+        PatternName : req.body.ImageName,
         color : req.body.color,
         ProdID: req.body.ProdID
     }).then(data => res.status(200).json(data)).catch(err =>{
@@ -15,10 +15,14 @@ exports.createImage = (req,res) => {
     })
 }
 
-exports.getAllImages = (req,res) => {
-    Image.findAll({
+exports.getAllPatterns = (req,res) => {
+    Pattern.findAll({
         include: ["Products"]
     }).then(data => res.status(200).json(data)).catch(err => {
         res.status(500).json({message : err.message})
     })
 }
+
+// exports.getPatternsByProd = (req,res) => {
+
+// }

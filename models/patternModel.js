@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-    const Images = sequelize.define('Images', {
-        ImageName: {
+    const Patterns = sequelize.define('Patterns', {
+        PatternName: {
             type: DataTypes.STRING(50),
             primaryKey: true,
             // autoIncrement: true,
@@ -29,5 +29,5 @@ module.exports = (sequelize, DataTypes) => {
     },
     )
 
-    return Images
+    return Patterns
 }
