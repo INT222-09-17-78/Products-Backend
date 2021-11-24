@@ -6,13 +6,9 @@ exports.createProduct = async  (req,res) => {
     // console.log(req.file)
     // const images = [
     //   "ColorID","asdasd"
-    const jsonProduct = JSON.parse(req.body.product)
-    const sizes = jsonProduct.Sizes
-    
     // const sizes = [{"SizeName":"large"}]
     // console.log(sizes.SizeName)
-    // console.log(colors[0].ColorID)
-     
+    // console.log(colors[0].ColorID)  
     // ]
     try {
       // const color = await Colors.findAll()
@@ -32,6 +28,7 @@ exports.createProduct = async  (req,res) => {
       // data = await product.addColors(x.ColorID,{through: {ImageName:images[x]}})
     // }
     // const data = []
+    const sizes = jsonProduct.Sizes
     for (let i = 0; i < sizes.length; i++) {
       // data.push(await product.addSizes(sizes[i].SizeName,{through: {ImageName:'sizes[i].name',Colors:'sizes[i].color'}}))
       await product.addSizes(sizes[i].SizeName)
