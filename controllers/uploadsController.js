@@ -9,7 +9,7 @@ const uploadFile = async (req, res, next) => {
   try {
     await upload.uploadUserPromise(req, res);
     // console.log(req.file)
-    req.file = req.file
+    // req.file = req.file
     // if (req.file == undefined) {
     //   return res.status(400).send({ message: "Choose a file to upload" });
     // }

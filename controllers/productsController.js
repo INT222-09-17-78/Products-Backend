@@ -6,6 +6,8 @@ exports.createProduct = async  (req,res) => {
     // console.log(req.file)
     // const images = [
     //   "ColorID","asdasd"
+    console.log(req.body)
+    console.log(req.file)
     const sizes = req.body.Sizes
     
     // const sizes = [{"SizeName":"large"}]
@@ -17,12 +19,12 @@ exports.createProduct = async  (req,res) => {
       // const color = await Colors.findAll()
       // console.log(color)
     const product = await Products.create({
-        ProdName : req.body.ProdName,
-        Price: req.body.Price,
-        Description: req.body.Description,
-        ProduceDate: req.body.ProduceDate,
-        BrandId: req.body.BrandId,
-        Image: req.body.Image
+        ProdName : req.body.product.ProdName,
+        Price: req.body.product.Price,
+        Description: req.body.product.Description,
+        ProduceDate: req.body.product.ProduceDate,
+        BrandId: req.body.product.BrandId,
+        Image: req.body.product.Image
         // image: req.body.image
     })
     // for await (let x of color) {

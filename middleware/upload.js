@@ -31,7 +31,7 @@ const storage = multer.diskStorage({
 
 let uploadUser = multer({storage: storage, fileFilter: fileFilter,limits: {
     fileSize: limit
-},}).single('file')
+},}).single('image')
 // let upload2 = multer({storage: storage, fileFilter: fileFilter})
 // module.exports = upload2;
 // module.exports = upload;
