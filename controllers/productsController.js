@@ -8,7 +8,7 @@ exports.createProduct = async  (req,res) => {
     //   "ColorID","asdasd"
     console.log(req.body)
     console.log(req.file)
-    const sizes = req.body.Sizes
+    const sizes = req.body.product.Sizes
     
     // const sizes = [{"SizeName":"large"}]
     // console.log(sizes.SizeName)
