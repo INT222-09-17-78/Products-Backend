@@ -67,8 +67,6 @@ router.get('/users/findUserByUsername/' ,auth.validateToken,auth.ValidateAdmin, 
 //     // }
 // })
 
-// router.delete('/:postId', postController.deleteById)
 
-// router.put('/:postId', postController.updateById)
 
 module.exports = router;
