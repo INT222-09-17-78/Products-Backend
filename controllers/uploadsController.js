@@ -112,4 +112,12 @@ const downloadFiles = (req, res) => {
     });
 };
 
-module.exports = { uploadFile, downloadFiles, getFilesList, uploadFileArray };
+
+const getFileByName = (name) => {
+  fs.readFile(__basedir + name , (err,data) => {
+    console.log(data)
+  })
+}
+
+
+module.exports = { uploadFile, downloadFiles, getFilesList, uploadFileArray ,getFileByName};
