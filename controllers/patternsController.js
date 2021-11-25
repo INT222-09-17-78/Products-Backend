@@ -4,7 +4,7 @@ const fs = require('fs/promises')
 exports.createPattern = (req,res) => {
     // console.log(req.body)
     Pattern.create({
-        PatternName : req.body.ImageName,
+        PatternName : req.body.PatternName,
         color : req.body.color,
         ProdID: req.body.ProdID
     }).then(data => res.status(200).json(data)).catch(err =>{

@@ -4,7 +4,6 @@ const path = require('path')
 const util = require("util");
 const limit = 5242880
 const fileFilter = (req, file , cb) => {
-    // console.log(req)
     // if(file){
         
     //     cb(new Error('The file is empty!'), false)
@@ -29,15 +28,21 @@ const storage = multer.diskStorage({
     }
 })
 
-let uploadUser = multer({storage: storage, fileFilter: fileFilter,limits: {
+let upload = multer({storage: storage, fileFilter: fileFilter,limits: {
     fileSize: limit
 },}).single('image')
+
+let uploadArray = multer({storage: storage, fileFilter: fileFilter,limits: {
+    fileSize: limit
+},}).array('image')
 // let upload2 = multer({storage: storage, fileFilter: fileFilter})
 // module.exports = upload2;
 // module.exports = upload;
-let uploadUserPromise = util.promisify(uploadUser);
+let uploadPromise = util.promisify(upload);
+let uploadPromiseArray = util.promisify(uploadArray)
 module.exports = {
-    uploadUserPromise,
+    uploadPromise,
+    uploadPromiseArray
     // upload2
 }
 // exports = upload

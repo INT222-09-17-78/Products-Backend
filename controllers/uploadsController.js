@@ -7,7 +7,12 @@ const fs = require("fs");
 
 const uploadFile = async (req, res, next) => {
   try {
-    await upload.uploadUserPromise(req, res);
+      
+      await upload.uploadPromise(req, res);
+      // console.log(req.file)
+    // if(req.files){
+    //   await upload.uploadArray(req,res)
+    // }
     // console.log(req.file)
     // req.file = req.file
     // if (req.file == undefined) {
@@ -35,6 +40,41 @@ const uploadFile = async (req, res, next) => {
   }
   
 };
+
+const uploadFileArray = async (req, res, next) => {
+  try {
+      
+    await upload.uploadPromiseArray(req, res);
+    // console.log(req.file)
+  // if(req.files){
+  //   await upload.uploadArray(req,res)
+  // }
+  // console.log(req.file)
+  // req.file = req.file
+  // if (req.file == undefined) {
+  //   return res.status(400).send({ message: "Choose a file to upload" });
+  // }
+
+  next()
+} catch (err) {
+  console.log(err.message);
+
+  // if (err.code == "LIMIT_FILE_SIZE") {
+  //   return res.status(500).send({
+  //     message: "File size should be less than 5MB",
+  //   });
+  // }
+  // if (err.code == "The file is not image!") {
+  //   return res.status(500).send({
+  //     message: "Please upload an image only",
+  //   });
+  // }
+
+  res.status(500).json({
+    message: ` ${err.message}`,
+  });
+}
+}
 
 const getFilesList = (req, res) => {
   const path = __basedir + "/images/";
@@ -72,4 +112,4 @@ const downloadFiles = (req, res) => {
     });
 };
 
-module.exports = { uploadFile, downloadFiles, getFilesList };
+module.exports = { uploadFile, downloadFiles, getFilesList, uploadFileArray };

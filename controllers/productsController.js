@@ -9,11 +9,13 @@ exports.createProduct = async  (req,res) => {
     // const sizes = [{"SizeName":"large"}]
     // console.log(sizes.SizeName)
     // console.log(colors[0].ColorID)  
+    console.log(req.body)
     // ]
     try {
       // const color = await Colors.findAll()
       // console.log(color)
-    const jsonProduct = JSON.parse(req.body.product)
+    const jsonProduct = req.body.product
+    // const jsonProduct = JSON.parse(req.body.product)
     const product = await Products.create({
         ProdName : jsonProduct.ProdName,
         Price: jsonProduct.Price,
