@@ -166,7 +166,7 @@ exports.deleteProduct = async (req, res) => {
 }
 
 exports.findProductById = (req,res) => {
-    Products.findByPk(req.params.id, {include:["Brands"]}).then(data => {
+    Products.findByPk(req.params.id, {include:["Brands","Sizes","Patterns"]}).then(data => {
         res.json(data);
         console.log(data)
       })
