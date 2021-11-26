@@ -1,9 +1,10 @@
 const express = require('express')
 const router = express.Router()
 const pattern = require('../controllers/patternsController')
-const uplaod = require('../controllers/uploadsController')
+const upload = require('../controllers/uploadsController')
 
-router.post('/create/pattern', uplaod.uploadFileArray,pattern.createPattern)
+router.post('/create/pattern', upload.uploadFileArray,pattern.createPattern)
 router.get('/show/patterns' , pattern.getAllPatterns)
-
+router.put('/update/patterns' , upload.uploadFileArray , pattern.editPattern)
+// router.delete('/delete/pattern')
 module.exports = router;
