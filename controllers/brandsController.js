@@ -17,8 +17,12 @@ exports.editBrand = (req , res) => {
         where : {
             BrandId : req.body.BrandId
         }
-    }).then(data => {
-        res.status(200).json(data)
+    }).then(rowUpdate => {
+        if(rowUpdate == 1){
+            res.status(200).json('update success')
+        }else{
+            res.status(500).json('cant find row to update maybe something wrong')
+        }
     }).catch(err => {
         res.status(500).json({message : err.message})
     })
@@ -33,7 +37,7 @@ exports.deleteBrand = (req, res) => {
         if (deletedProdRow == 1) {
             res.status(200).json('deleted success')
           } else {
-            res.status(500).json('maybe something wrong')
+            res.status(500).json('cant find row to delete or maybe something wrong')
           }
     }).catch(err => {
         res.status(500).json({ message: err.message })

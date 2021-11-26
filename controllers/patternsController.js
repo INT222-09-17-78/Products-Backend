@@ -4,6 +4,7 @@ const fs = require('fs/promises')
 exports.createPattern = (req, res) => {
     // console.log(req.body)
     const patterns = req.body.patterns
+    // const patterns = JSON.parse(req.body.patterns)
     Pattern.bulkCreate(patterns, { validate: true }).then(data => res.status(200).json(data)).catch(err => {
 
         if (req.files) {
