@@ -176,7 +176,12 @@ exports.deleteProduct = async (req, res) => {
 
 exports.findProductById = (req, res) => {
   Products.findByPk(req.params.id, { include: ["Brands", "Sizes", "Patterns"] }).then(data => {
-    res.json(data);
+    if(data){
+      res.status(200).json(data);
+    }else{
+      res.status(500).json({message:'cant find product'})
+    }
+    
     console.log(data)
   })
     .catch(err => {
