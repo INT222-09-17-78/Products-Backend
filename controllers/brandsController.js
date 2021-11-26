@@ -31,7 +31,7 @@ exports.editBrand = (req , res) => {
 exports.deleteBrand = (req, res) => {
     Brands.destroy({
         where: {
-            BrandId : req.body.BrandId
+            BrandId : req.params.BrandId
         }
     }).then(deletedProdRow => {
         if (deletedProdRow == 1) {

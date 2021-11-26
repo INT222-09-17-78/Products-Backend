@@ -35,7 +35,7 @@ exports.editSize = (req,res) => {
 exports.deleteSize = (req,res) => {
     Sizes.destroy({
         where: {
-        SizeName : req.body.SizeName
+        SizeName : req.params.SizeName
         }
     }).then(deletedProdRow => {
         if (deletedProdRow == 1) {

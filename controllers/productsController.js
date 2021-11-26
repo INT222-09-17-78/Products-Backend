@@ -160,7 +160,7 @@ exports.deleteProduct = async (req, res) => {
   try {
     const deletedProdRow = await Products.destroy({
       where: {
-        ProdID: req.body.ProdID
+        ProdID: req.params.ProdID
       }
     })
     if (deletedProdRow == 1) {
