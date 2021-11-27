@@ -81,7 +81,7 @@ exports.editProduct = (req, res) => {
         Image: jsonProduct.Image
       }
     )
-    product.save().then(() => {
+    product.save().then((result) => {
       for (let i = 0; i < sizes.length; i++) {
         SizeName.push(sizes[i].SizeName)
       }
@@ -93,7 +93,7 @@ exports.editProduct = (req, res) => {
         //     fs.unlink('./images/' + jsonProduct.Image)
         // }
         // 1200px-Image_created_with_a_mobile_phone.png
-        res.status(200).json({ message: 'update success' })
+        res.status(200).json(result)
       }).catch((err) => {
         if (req.file) {
           fs.unlink('./images/' + jsonProduct.Image)
