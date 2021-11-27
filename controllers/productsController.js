@@ -67,7 +67,7 @@ exports.editProduct = (req, res) => {
   const jsonProduct = req.body.product
   // const jsonProduct = JSON.parse(req.body.product)
   const sizes = jsonProduct.Sizes
-  Products.findByPk(jsonProduct.ProdID).then((product) => {
+  Products.findByPk(req.params.ProdID).then((product) => {
     if (req.file && product.Image != jsonProduct.Image) {
       fs.unlink('./images/' + product.Image)
     }
