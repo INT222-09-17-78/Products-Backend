@@ -34,7 +34,7 @@ let upload = multer({storage: storage, fileFilter: fileFilter,limits: {
 
 let uploadArray = multer({storage: storage, fileFilter: fileFilter,limits: {
     fileSize: limit
-},}).array('image')
+},}).array('images')
 // let upload2 = multer({storage: storage, fileFilter: fileFilter})
 // module.exports = upload2;
 // module.exports = upload;
