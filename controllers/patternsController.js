@@ -76,11 +76,11 @@ exports.deletePatterns = async (req, res) => {
         // if(!req.file){
             // return res.status(500).json({message: "delete failed , don't have a file to delete"})
         // }else{
-            fs.unlink('./images/' + req.body.PatternName)
+            fs.unlink('./images/' + req.params.PatternName)
         // }
       const deletedProdRow = await Products.destroy({
         where: {
-            PatternName: req.body.PatternName
+            PatternName: req.params.PatternName
         }
       })
       if (deletedProdRow == 1) {

@@ -22,12 +22,12 @@ const userInfoValid = require('../middleware/UserInfoValidation');
 
 exports.createUserAndUploadPic = (req, res, next) => {
   userInfoValid.validateAndCreateUser(req, res).then((data) => {
-    if (data == false) {
-      if (req.file) {
-        fs.unlink('./images/' + req.file.filename)
-      }
-      return
-    } else {
+    // if (data == false) {
+    //   if (req.file) {
+    //     fs.unlink('./images/' + req.file.filename)
+    //   }
+    //   return
+    // } else {
       Users.create(data)
         .then(data => {
           res.status(200).json(data);
@@ -50,11 +50,11 @@ exports.createUserAndUploadPic = (req, res, next) => {
           message: err.message || "Some error occurred while creating the User."
         }); 
         
-          if (req.file) {
-            fs.unlink('./images/' + req.file.filename)
-          }
+          // if (req.file) {
+          //   fs.unlink('./images/' + req.file.filename)
+          // }
         })
-    }
+    // }
   })
 }
 
@@ -73,12 +73,12 @@ exports.updateUserAndUploadPic = async (req, res, next) => {
   }
 
   userInfoValid.validateAndUpdateUser(req, res).then((data) => {
-    if (data == false || !User) {
-      if (req.file) {
-        fs.unlink('./images/' + req.file.filename)
-      }
-      return
-    } else {
+    // if (data == false || !User) {
+    //   if (req.file) {
+    //     fs.unlink('./images/' + req.file.filename)
+    //   }
+    //   return
+    // } else {
       User.update(data).then(data => {
         res.status(200).json(data)
       }).catch(err => {        
@@ -98,11 +98,11 @@ exports.updateUserAndUploadPic = async (req, res, next) => {
         message: err.message || "Some error occurred while creating the User."
       }); 
 
-        if (req.file) {
-          fs.unlink('./images/' + req.file.filename)
-        }
+        // if (req.file) {
+        //   fs.unlink('./images/' + req.file.filename)
+        // }
       })
-    }
+    // }
   })
 }
 
