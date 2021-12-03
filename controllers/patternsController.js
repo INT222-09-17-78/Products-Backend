@@ -69,24 +69,29 @@ exports.editPattern = (req, res) => {
 
 }
 
-exports.deletePatterns = (req, res) => {
+exports.deletePatterns = async (req, res) => {
     // console.log(req.body.patterns)
     // const patterns = req.body.patterns
-    // try {
-    //   const deletedProdRow = await Products.destroy({
-    //     where: {
-    //       ProdID: req.body.ProdID
-    //     }
-    //   })
-    //   if (deletedProdRow == 1) {
-    //     res.status(200).json('deleted success')
-    //   } else {
-    //     res.status(500).json('maybe something wrong')
-    //   }
+    try {
+        if(!req.file){
+            return res.status(500).json({message: "delete failed , don't have a file to delete"})
+        }else{
+            fs.unlink('./images/' + req.file.filename)
+        }
+      const deletedProdRow = await Products.destroy({
+        where: {
+            PatternName: req.body.PatternName
+        }
+      })
+      if (deletedProdRow == 1) {
+        res.status(200).json('deleted success')
+      } else {
+        res.status(500).json('maybe something wrong')
+      }
   
-    // } catch (err) {
-    //   res.status(500).json({ message: err.message })
-    // }
+    } catch (err) {
+      res.status(500).json({ message: err.message })
+    }
 }
 
 exports.getAllPatterns = (req, res) => {
