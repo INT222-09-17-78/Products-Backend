@@ -78,7 +78,7 @@ exports.deletePatterns = async (req, res) => {
         // }else{
             fs.unlink('./images/' + req.params.PatternName)
         // }
-      const deletedProdRow = await Products.destroy({
+      const deletedProdRow = await Pattern.destroy({
         where: {
             PatternName: req.params.PatternName
         }
