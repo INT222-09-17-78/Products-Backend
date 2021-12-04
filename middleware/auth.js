@@ -27,7 +27,25 @@ const validateToken = (req,res,next) => {
         //"it's not right token maybe plese login first"
     }
 }
+const validateTokenPublic = (req,res,next) => {
+  // console.log(req.session.cookie)
+  const accessToken = req.cookies["access-token"]
+  if(!accessToken){
+      return res.status(401).json({message: 'user not authenticated'})
+  }
 
+  try{
+      const validToken = verify(accessToken, process.env.JWT_SECRET);
+      if(validToken){
+          // console.log(validToken)
+          req.token = validToken
+          return next()
+      }
+  }catch(error){
+      return res.status(401).json({message: 'invalid token'})
+      //"it's not right token maybe plese login first"
+  }
+}
 // const validateTokenOffClient = (req, res ,next) => {
 //   const accessToken =
 // }
@@ -93,4 +111,4 @@ const ValidateAdmin = async (req, res, next) => {
   
 }
 
-module.exports = {createTokens,validateToken,ValidateAdmin}
+module.exports = {createTokens,validateToken,ValidateAdmin,validateTokenPublic}
