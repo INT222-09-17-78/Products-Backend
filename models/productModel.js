@@ -18,7 +18,7 @@ module.exports = (sequelize,DataTypes) => {
             allowNull: false,
         },
         Description:{
-            type: DataTypes.STRING(300)
+            type: DataTypes.STRING(500)
         },
         ProduceDate:{
             type: DataTypes.DATE,
