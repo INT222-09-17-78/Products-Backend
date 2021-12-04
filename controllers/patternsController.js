@@ -6,8 +6,8 @@ exports.createPattern = (req, res) => {
     // console.log(req.files,'as')
     // console.log(req.file)
     // console.log(req.body.images)
-    const patterns = req.body.patterns
-    // const patterns = JSON.parse(req.body.patterns)
+    // const patterns = req.body.patterns
+    const patterns = JSON.parse(req.body.patterns)
     Pattern.bulkCreate(patterns, { validate: true }).then(data => res.status(200).json(data)).catch(err => {
 
         if (req.files) {
