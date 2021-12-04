@@ -27,6 +27,37 @@ const validateToken = (req,res,next) => {
         //"it's not right token maybe plese login first"
     }
 }
+
+// const validateTokenOffClient = (req, res ,next) => {
+//   const accessToken =
+// }
+
+// const validateToken = async (req, res, next) => {
+//   // console.log(req.session.cookie)
+//   const authHeader = req.headers['authorization']
+//   const accessToken = authHeader && authHeader.split(' ')[1]
+//   // const accessToken = req.cookies["access-token"]
+//   if (!accessToken) {
+//     return res.status(401).json({ message: 'user not authenticated' })
+//   }
+
+//   try {
+//     const validToken = verify(accessToken, process.env.JWT_SECRET);
+//     const user = await Users.findOne({
+//       _id: validToken.id
+//     })
+//     if (validToken && user) {
+//       req.user = user
+//       req.token = validToken
+//       return next()
+//     }else{
+//       res.status(500).json({message:"token is not valid or cant find user"})
+//     }
+//   } catch (error) {
+//     return res.status(401).json({ message: error })
+//     //"it's not right token maybe plese login first"
+//   }
+// }
 // const validateLoggedIn = (req, res, next) => {
 //     console.log(req.session.username)
 //     if (req.session.username) {

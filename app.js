@@ -18,7 +18,7 @@ app.use(cors(
     origin: process.env.CORS,credentials:true,//access-control-allow-credentials:true optionSuccessStatus:200}
   }
 ))
-app.use(express.json({limit:'50mb'}));
+app.use(express.json({limit:'16mb'}));
 app.use(cookieParser())
 app.use(express.urlencoded({
   extended: true

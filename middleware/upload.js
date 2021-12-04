@@ -2,7 +2,7 @@ const multer = require('multer')
 const uuidv4 = require('uuid')
 const path = require('path')
 const util = require("util");
-const limit = 5242880
+// const limit = 1048576000000000
 const fileFilter = (req, file , cb) => {
     // if(file){
         
@@ -28,13 +28,9 @@ const storage = multer.diskStorage({
     }
 })
 
-let upload = multer({storage: storage, fileFilter: fileFilter,limits: {
-    fileSize: limit
-},}).single('image')
+let upload = multer({storage: storage, fileFilter: fileFilter,}).single('image')
 
-let uploadArray = multer({storage: storage, fileFilter: fileFilter,limits: {
-    fileSize: limit
-},}).array('images')
+let uploadArray = multer({storage: storage, fileFilter: fileFilter,limits: { fieldSize: 10485760 }}).array('images')
 // let upload2 = multer({storage: storage, fileFilter: fileFilter})
 // module.exports = upload2;
 // module.exports = upload;
