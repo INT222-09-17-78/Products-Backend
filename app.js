@@ -15,7 +15,7 @@ require('dotenv').config()
 global.__basedir = __dirname; 
 app.use(cors(
   {
-    origin: process.env.CORS,credentials:true,//access-control-allow-credentials:true optionSuccessStatus:200}
+    origin: [process.env.CORS,process.env.CORS2],credentials:true,//access-control-allow-credentials:true optionSuccessStatus:200}
   }
 ))
 app.use(express.json({limit:'16mb'}));
