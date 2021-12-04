@@ -37,16 +37,16 @@ const validateTokenPublic = async (req,res,next) => {
   }
 
   try {
-    const validToken = verify(accessToken, process.env.JWT_SECRET);
-    const user = await Users.findOne({
-      _id: validToken.id
-    })
-    if (validToken && user) {
-      req.user = user
-      req.token = validToken
+    const validToken = verify(accessToken, process.env.JWT_SECRET_PUBLIC);
+    // const user = await Users.findOne({
+    //   _id: validToken.id
+    // })
+    if (validToken) {
+      // req.user = user
+      // req.token = validToken
       return next()
     }else{
-      res.status(500).json({message:"token is not valid or cant find user"})
+      return res.status(500).json({message:"token is not valid or cant find user"})
     }
   } catch (error) {
     return res.status(401).json({ message: error })
