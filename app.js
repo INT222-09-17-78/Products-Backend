@@ -16,7 +16,7 @@ global.__basedir = __dirname;
 const allowedDomains = [process.env.CORS,process.env.CORS2]
 app.use(cors(
   {
-    origin: 'http://20.205.212.121:8080',credentials:true,//access-control-allow-credentials:true optionSuccessStatus:200}
+    origin: 'https://tilestore.ml',credentials:true,//access-control-allow-credentials:true optionSuccessStatus:200}
   }
 ))
 // app.use(cors({
