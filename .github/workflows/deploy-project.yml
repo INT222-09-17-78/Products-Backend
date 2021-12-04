@@ -47,7 +47,8 @@ jobs:
             docker stop backend && docker rm backend
             docker image rm ghcr.io/int222-09-17-78/backend:1.0.0
             docker-compose up --build -d
-            docker image prune -af
+            
+#docker image prune -af
            
 #test
 # az acr login -n suesiRegistry
