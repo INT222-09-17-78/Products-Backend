@@ -51,12 +51,12 @@ exports.loggedInUser = (req, res) => {
         }]
       }
     })
-    console.log(user.password)
-      bcrypt.compare('testuser', 'testuser').then(result => (console.log(result)))
-    if (user == null) {
-      console.log(user)
+    // console.log(user.password)
+      .then(result => (console.log(result)))
+    if (user == null || await bcrypt.compare(req.body.password, user.password) == false) {
+      // console.log(user)
       console.log('incorrect username or password')
-      console.log(req.body.username, req.body.password)
+      // console.log(req.body.username, req.body.password)
       res.status(401).json({
         message: 'Authentication failed. Incorrect username or password'
       })
