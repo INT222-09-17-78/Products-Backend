@@ -52,7 +52,7 @@ exports.loggedInUser = (req, res) => {
       }
     })
     console.log(user.password)
-      console.log(await bcrypt.compare(req.body.password, user.password) == false)
+      console.log(await bcrypt.compare('testuser', 'testuser') == false)
     if (user == null) {
       console.log(user)
       console.log('incorrect username or password')
