@@ -13,17 +13,17 @@ const cookieParser = require('cookie-parser')
 require('dotenv').config()
 
 global.__basedir = __dirname; 
-const allowedDomains = [process.env.CORS,process.env.CORS2]
-// app.use(cors(
-//   {
-//     origin: 'https://tilestore.ml',credentials:true,//access-control-allow-credentials:true optionSuccessStatus:200}
-//   }
-// ))
-let allowedOrigins = ["https://tilestore.ml", "http://20.205.212.121:8080"]
-let origin = req.headers.origin;
-if (allowedOrigins.includes(origin)) {
-    res.header("Access-Control-Allow-Origin", origin); // restrict it to the required domain
-}
+// const allowedDomains = [process.env.CORS,process.env.CORS2]
+app.use(cors(
+  {
+    origin: 'https://tilestore.ml',credentials:true,//access-control-allow-credentials:true optionSuccessStatus:200}
+  }
+))
+// let allowedOrigins = ["https://tilestore.ml", "http://20.205.212.121:8080"]
+// let origin = req.headers.origin;
+// if (allowedOrigins.includes(origin)) {
+//     res.header("Access-Control-Allow-Origin", origin); // restrict it to the required domain
+// }
 // app.use(cors({
 //   origin: function (origin, callback) {
 //     // bypass the requests with no origin (like curl requests, mobile apps, etc )
