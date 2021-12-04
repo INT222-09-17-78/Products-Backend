@@ -28,9 +28,21 @@ const storage = multer.diskStorage({
     }
 })
 
+const patternsStorage = multer.diskStorage({
+    destination: (req , file ,cb) => {
+        cb(null, './images/patterns/')
+    },
+    filename: (req, file, cb) => {
+        
+        // const ran = Math.random
+        // cb(null,  uuidv4.v4()+'_user_images.' + path.extname(file.originalname) )
+        cb(null,  file.originalname )
+    }
+})
+
 let upload = multer({storage: storage, fileFilter: fileFilter,}).single('image')
 
-let uploadArray = multer({storage: storage, fileFilter: fileFilter,limits: { fieldSize: 10485760 }}).array('images')
+let uploadArray = multer({storage: patternsStorage, fileFilter: fileFilter,limits: { fieldSize: 10485760 }}).array('images')
 // let upload2 = multer({storage: storage, fileFilter: fileFilter})
 // module.exports = upload2;
 // module.exports = upload;

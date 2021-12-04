@@ -112,6 +112,18 @@ const downloadFiles = (req, res) => {
     });
 };
 
+const downloadPatternsFiles = (req, res) => {
+  const fileName = req.params.name;
+  const path = __basedir + "/images/patterns/";
+
+  res.download(path + fileName, (err) => {
+    if (err) {
+      res.status(500).json({
+        message: "File can not be downloaded: " + err,
+      });
+    }
+  });
+};
 
 const getFileByName = (name) => {
   fs.readFile(__basedir + name , (err,data) => {
@@ -120,4 +132,4 @@ const getFileByName = (name) => {
 }
 
 
-module.exports = { uploadFile, downloadFiles, getFilesList, uploadFileArray ,getFileByName};
+module.exports = { uploadFile, downloadFiles, getFilesList, uploadFileArray ,getFileByName ,downloadPatternsFiles};

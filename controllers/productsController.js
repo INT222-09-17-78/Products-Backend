@@ -3,6 +3,7 @@ const db = require('../models')
 // const upload = require('./uploadsController')
 const Products = db.products
 const Sizes = db.sizes
+const Patterns = db.patterns
 const fs = require('fs/promises')
 // const Colors = db.colors
 // const fs = require('fs/promises')
@@ -156,8 +157,29 @@ exports.editProduct = (req, res) => {
 }
 
 exports.deleteProduct = async (req, res) => {
-  console.log(req.body.ProdID)
+  // console.log(req.body.ProdID)
   try {
+    const product = await Products.findByPk(req.params.ProdID)
+    // const patternImage = []
+    // console.log(product)
+    if (product.Image) {
+      fs.unlink('./images/' + product.Image)
+    }
+    const  patterns = await Patterns.findAll({
+      where: {
+        ProdID : req.params.ProdID
+      }
+    })
+      console.log(patterns[0].PatternImage)
+      for(let i =0;i < patterns.length;i++){
+        // console.log(pattern.PatternImage)
+        if (patterns[i].PatternImage) {
+          fs.unlink('./images/patterns/' + patterns[i].PatternImage)
+        }
+      }
+    
+    // console.log(pattern)
+    
     const deletedProdRow = await Products.destroy({
       where: {
         ProdID: req.params.ProdID

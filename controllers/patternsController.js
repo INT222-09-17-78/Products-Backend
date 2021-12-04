@@ -13,7 +13,7 @@ exports.createPattern = (req, res) => {
         if (req.files) {
             //     fs.unlink('./images/' + req.file.filename)
             for (let i = 0; i < req.files.length; i++) {
-                fs.unlink('./images/' + req.files[i].filename)
+                fs.unlink('./images/patterns/' + req.files[i].filename)
             }
         }
         res.status(500).json({ message: err.message })
@@ -53,7 +53,7 @@ exports.editPattern = (req, res) => {
             if (req.files) {
                 for (let i = 0; i < req.files.length; i++) {
                     // if (patterns[i].PatternName != req.files[i].filename) {
-                    fs.unlink('./images/' + req.files[i].filename)
+                    fs.unlink('./images/patterns/' + req.files[i].filename)
                     // }
                 }
             }
@@ -79,13 +79,14 @@ exports.deletePatterns = async (req, res) => {
         // if(!req.file){
             // return res.status(500).json({message: "delete failed , don't have a file to delete"})
         // }else{
-            fs.unlink('./images/' + req.params.PatternImage)
+            fs.unlink('./images/patterns/' + req.params.PatternImage)
         // }
       const deletedProdRow = await Pattern.destroy({
         where: {
             PatternImage: req.params.PatternImage
         }
       })
+    //   console.log(deletedProdRow)
       if (deletedProdRow == 1) {
         res.status(200).json("deleted success")
       } else {
