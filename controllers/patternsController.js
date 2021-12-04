@@ -26,8 +26,8 @@ exports.editPattern = (req, res) => {
 
     //     }
     // })
-    const patterns = req.body.patterns
-
+    // const patterns = req.body.patterns
+    const patterns = JSON.parse(req.body.patterns)
 
     // Pattern.findAll({
     //     where: {
@@ -47,7 +47,7 @@ exports.editPattern = (req, res) => {
         //         }
         //     }
         // }
-        Pattern.bulkCreate(patterns, { updateOnDuplicate: ["Patternname", "color"], validate: true }).then(data => res.status(200).json(data)).catch(err => {
+        Pattern.bulkCreate(patterns, { updateOnDuplicate: ["PatternImage", "color"], validate: true }).then(data => res.status(200).json(data)).catch(err => {
 
             console.log(req.files)
             if (req.files) {
@@ -79,11 +79,11 @@ exports.deletePatterns = async (req, res) => {
         // if(!req.file){
             // return res.status(500).json({message: "delete failed , don't have a file to delete"})
         // }else{
-            fs.unlink('./images/' + req.params.PatternName)
+            fs.unlink('./images/' + req.params.PatternImage)
         // }
       const deletedProdRow = await Pattern.destroy({
         where: {
-            PatternName: req.params.PatternName
+            PatternImage: req.params.PatternImage
         }
       })
       if (deletedProdRow == 1) {

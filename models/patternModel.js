@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
     const Patterns = sequelize.define('Patterns', {
-        PatternName: {
+        PatternImage: {
             type: DataTypes.STRING(50),
             primaryKey: true,
             // autoIncrement: true,

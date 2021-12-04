@@ -11,7 +11,7 @@ module.exports = (sequelize,DataTypes) => {
         BrandName:{
             type: DataTypes.STRING(45),
             allowNull: false,
-
+            unique: true
         },
         
         

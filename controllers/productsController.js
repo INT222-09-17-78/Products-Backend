@@ -64,8 +64,8 @@ exports.createProduct = async (req, res) => {
 
 exports.editProduct = (req, res) => {
   const SizeName = []
-  const jsonProduct = req.body.product
-  // const jsonProduct = JSON.parse(req.body.product)
+  // const jsonProduct = req.body.product
+  const jsonProduct = JSON.parse(req.body.product)
   const sizes = jsonProduct.Sizes
   Products.findByPk(req.params.ProdID).then((product) => {
     if (req.file && product.Image != jsonProduct.Image) {
