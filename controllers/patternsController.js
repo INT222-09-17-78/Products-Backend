@@ -8,8 +8,10 @@ exports.createPattern = (req, res) => {
     // console.log(req.body.images)
     // const patterns = req.body.patterns
     const patterns = JSON.parse(req.body.patterns)
+    
     for(let i =0;i<patterns.length;i++){
-        if(patterns[i].color == null){
+        console.log(patterns)
+        if(patterns[i].color === ''){
             return res.status(500).json({message:'color is null',colorPos: i})
         }
     }
