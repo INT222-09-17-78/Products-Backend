@@ -67,7 +67,7 @@ exports.editProduct = (req, res) => {
   const SizeName = []
   // const jsonProduct = req.body.product
   const jsonProduct = JSON.parse(req.body.product)
-  const sizes = jsonProduct.Sizes
+  // const jsonProduct = jsonProduct.Sizes
   Products.findByPk(req.params.ProdID).then((product) => {
     if (req.file && product.Image != jsonProduct.Image) {
       fs.unlink('./images/' + product.Image)
@@ -83,18 +83,20 @@ exports.editProduct = (req, res) => {
       }
     )
     product.save().then((result) => {
-      for (let i = 0; i < sizes.length; i++) {
-        SizeName.push(sizes[i].SizeName)
+      // console.log(result)
+      for (let i = 0; i < jsonProduct.Sizes.length; i++) {
+        SizeName.push(jsonProduct.Sizes[i].SizeName)
       }
       // console.log(SizeName)
       Sizes.findAll({ where: { SizeName: SizeName } }).then((size) => {
+        // console.log(size)
         product.setSizes(size)
         //   consoloe.log(upload.getFileByName(jsonProduct.Image))
         //   if(upload.getFileByName(jsonProduct.Image)){  
         //     fs.unlink('./images/' + jsonProduct.Image)
         // }
         // 1200px-Image_created_with_a_mobile_phone.png
-        res.status(200).json(result)
+        res.status(200).json('update success')
       }).catch((err) => {
         if (req.file) {
           fs.unlink('./images/' + jsonProduct.Image)
@@ -170,7 +172,7 @@ exports.deleteProduct = async (req, res) => {
         ProdID : req.params.ProdID
       }
     })
-      console.log(patterns[0].PatternImage)
+      console.log(patterns)
       for(let i =0;i < patterns.length;i++){
         // console.log(pattern.PatternImage)
         if (patterns[i].PatternImage) {

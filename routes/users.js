@@ -38,7 +38,9 @@ router.get('/users/login' ,auth.validateToken, loginLogoutController.loggedInUse
 router.get('/users/logout' , auth.validateToken  , loginLogoutController.logOut)
 router.get('/users/findUserByUsername/' ,auth.validateToken,auth.ValidateAdmin, usersController.findByUsername)
 
-
+router.get('/users/isLoggedIn' , auth.getIsloggedIn)
+router.get('/users/role' , auth.getRole)
+router.put('/users/changeIsLoggedIn' , auth.changeIsloggeIn)
 // router.get('/login', (req,res) => {
 //     res.send('on login')
 // })
