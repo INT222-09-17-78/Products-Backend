@@ -8,6 +8,11 @@ exports.createPattern = (req, res) => {
     // console.log(req.body.images)
     // const patterns = req.body.patterns
     const patterns = JSON.parse(req.body.patterns)
+    for(let i =0;i<patterns.length;i++){
+        if(patterns[i].color == null){
+            return res.status(500).json({message:'color is null',colorPos: i})
+        }
+    }
     Pattern.bulkCreate(patterns, { validate: true }).then(data => res.status(200).json(data)).catch(err => {
 
         if (req.files) {
