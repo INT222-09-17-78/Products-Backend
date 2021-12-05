@@ -8,36 +8,61 @@ const createTokens = (user) => {
   return accessToken
 }
 
-const changeIsloggeIn = () => {
-  const accessToken = req.cookies["access-token"]
-  if (!accessToken) {
-    return res.status(401).json({ message: 'user not authenticated' })
-  }
-  try {
-    accessToken.isLoggedIn = false
-
-  } catch (error) {
-    return res.status(401).json({ message: error.message })
-    //"it's not right token maybe plese login first"
-  }
-}
+// const changeIsloggeIn = () => {
+//   // const accessToken = req.cookies["access-token"]
+//   // if (!accessToken) {
+//   //   return res.status(401).json({ message: 'user not authenticated' })
+//   // }
+//   try {
+//     req.token.isLoggedIn = false
+//     return res.status(200).json('changeIsLoggedIn success is LoggedIn : '+  req.token.isLoggedIn)
+//   } catch (error) {
+//     return res.status(401).json({ message: error.message })
+//     //"it's not right token maybe plese login first"
+//   }
+// }
 
 const getIsloggedIn = (req,res) => {
-  const accessToken = req.cookies["access-token"]
-  if (!accessToken) {
-    return res.status(401).json({ message: 'user not authenticated' })
-  }else{
-    return res.status(200).json({isLoggedIn: accessToken.isLoggedIn})
-  }
+  // const accessToken = req.cookies["access-token"]
+  // if (!accessToken) {
+  //   return res.status(401).json({ message: 'user not authenticated' })
+  // }else{
+    return res.status(200).json({isLoggedIn: req.token.isLoggedIn})
+  // }
 }
 
 const getRole = (req , res) => {
-  const accessToken = req.cookies["access-token"]
-  if (!accessToken) {
-    return res.status(401).json({ message: 'user not authenticated' })
-  }else{
-    return res.status(200).json({role: accessToken.role})
-  }
+  // const accessToken = req.cookies["access-token"]
+  // if (!accessToken) {
+  //   return res.status(401).json({ message: 'user not authenticated' })
+  // }else{
+    Users.findOne({where:{id: req.token.id}}).then(user => {
+      if(user==null){
+        res.status(500).json({message:'cant find this user id : ' + req.token.id})
+      }
+      return res.status(200).json({role: user.role})
+    }).catch(err=>{
+      res.status(500).json({mesage:err.message})
+    })
+    
+  // }
+}
+
+const getUserName = (req , res) => {
+  // const accessToken = req.cookies["access-token"]
+  // if (!accessToken) {
+  //   return res.status(401).json({ message: 'user not authenticated' })
+  // }else{
+    Users.findOne({where:{id: req.token.id}}).then(user => {
+      if(user==null){
+        res.status(500).json({message:'cant find this user id : ' + req.token.id})
+      }
+      return res.status(200).json({username: user.username})
+    }).catch(err=>{
+      res.status(500).json({mesage:err.message})
+    })
+    
+  // }
 }
 
 const validateToken = (req, res, next) => {
@@ -150,4 +175,4 @@ const ValidateAdmin = async (req, res, next) => {
 
 }
 
-module.exports = { createTokens, validateToken, ValidateAdmin, validateTokenPublic ,changeIsloggeIn ,getIsloggedIn ,getRole}
+module.exports = { createTokens, validateToken, ValidateAdmin, validateTokenPublic  ,getIsloggedIn ,getRole ,getUserName}
