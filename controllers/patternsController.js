@@ -7,8 +7,8 @@ exports.createPattern = (req, res) => {
     // console.log(req.files,'as')
     // console.log(req.file)
     // console.log(req.body.images)
-    const patterns = req.body.patterns
-    // const patterns = JSON.parse(req.body.patterns)
+    // const patterns = req.body.patterns
+    const patterns = JSON.parse(req.body.patterns)
     
     
     for(let i =0;i<patterns.length;i++){
