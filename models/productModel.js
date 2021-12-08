@@ -10,10 +10,7 @@ module.exports = (sequelize,DataTypes) => {
         },
         ProdName:{
             type: DataTypes.STRING(45),
-            allowNull: false,
-            validate:{
-                notEmpty: true
-            }
+            allowNull: false
 
         },
         Price:{
@@ -30,10 +27,7 @@ module.exports = (sequelize,DataTypes) => {
         Image:{
             type: DataTypes.STRING(50),
             allowNull: false,
-            unique: true,
-            validate:{
-                notEmpty: true
-            }
+            unique: true
         },
         BrandId:{
             type: DataTypes.INTEGER,

@@ -27,7 +27,15 @@ const getIsloggedIn = (req,res) => {
   // if (!accessToken) {
   //   return res.status(401).json({ message: 'user not authenticated' })
   // }else{
-    return res.status(200).json({isLoggedIn: req.token.isLoggedIn})
+    Users.findOne({where:{id: req.token.id}}).then(user => {
+      if(user==null){
+        res.status(401).json({message:'cant find this user id : ' + req.token.id})
+      }
+      return res.status(200).json({isLoggedIn: req.token.isLoggedIn})
+    }).catch(err=>{
+      res.status(500).json({mesage:err.message})
+    })
+    // return res.status(200).json({isLoggedIn: req.token.isLoggedIn})
   // }
 }
 
