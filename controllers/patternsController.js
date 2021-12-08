@@ -42,6 +42,13 @@ exports.editPattern = (req, res) => {
     // const patterns = req.body.patterns
     const patterns = JSON.parse(req.body.patterns)
 
+    for(let i =0;i<patterns.length;i++){
+        console.log(patterns)
+        if(patterns[i].color === ''){
+            Product.destroy({where:{ProdID:patterns[i].ProdID}})
+            
+        }
+    }
     // Pattern.findAll({
     //     where: {
     //         ProdID: req.body.patterns[0].ProdID
