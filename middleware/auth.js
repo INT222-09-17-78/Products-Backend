@@ -38,7 +38,7 @@ const getRole = (req , res) => {
   // }else{
     Users.findOne({where:{id: req.token.id}}).then(user => {
       if(user==null){
-        res.status(500).json({message:'cant find this user id : ' + req.token.id})
+        res.status(401).json({message:'cant find this user id : ' + req.token.id})
       }
       return res.status(200).json({role: user.role})
     }).catch(err=>{
@@ -55,7 +55,7 @@ const getUserName = (req , res) => {
   // }else{
     Users.findOne({where:{id: req.token.id}}).then(user => {
       if(user==null){
-        res.status(500).json({message:'cant find this user id : ' + req.token.id})
+        res.status(401).json({message:'cant find this user id : ' + req.token.id})
       }
       return res.status(200).json({username: user.username})
     }).catch(err=>{
