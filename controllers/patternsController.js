@@ -1,21 +1,27 @@
 const db = require('../models')
 const Pattern = db.patterns
+const Product = db.products
 const fs = require('fs/promises')
 exports.createPattern = (req, res) => {
     // console.log(req.body)
     // console.log(req.files,'as')
     // console.log(req.file)
     // console.log(req.body.images)
-    // const patterns = req.body.patterns
-    const patterns = JSON.parse(req.body.patterns)
+    const patterns = req.body.patterns
+    // const patterns = JSON.parse(req.body.patterns)
+    
     
     for(let i =0;i<patterns.length;i++){
         console.log(patterns)
         if(patterns[i].color === ''){
-            return res.status(500).json({message:'color is null',colorPos: i})
+            Product.destroy({where:{ProdID:patterns[i].ProdID}})
+            
         }
     }
-    Pattern.bulkCreate(patterns, { validate: true }).then(data => res.status(200).json(data)).catch(err => {
+    Pattern.bulkCreate(patterns, { validate: true }).then(data => 
+        {
+            
+         res.status(200).json(data)}).catch(err => {
 
         if (req.files) {
             //     fs.unlink('./images/' + req.file.filename)
@@ -23,6 +29,7 @@ exports.createPattern = (req, res) => {
                 fs.unlink('./images/patterns/' + req.files[i].filename)
             }
         }
+        if(err.message === ''){err.message = 'some field may empty'}
         res.status(500).json({ message: err.message })
     })
 }

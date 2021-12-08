@@ -5,13 +5,18 @@ module.exports = (sequelize,DataTypes) => {
             primaryKey: true,
             // autoIncrement: true,
             unique: true,
-            allowNull: false
+            allowNull: false,
+            validate:{
+                notEmpty: true
+            }
 
         },
         Description:{
             type: DataTypes.STRING(45),
             allowNull: false,
-
+            validate:{
+                notEmpty: true
+            }
         },
         
         

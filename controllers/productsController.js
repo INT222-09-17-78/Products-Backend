@@ -18,8 +18,8 @@ exports.createProduct = async (req, res) => {
   try {
     // const color = await Colors.findAll()
     // console.log(color)
-    // const jsonProduct = req.body.product
-    const jsonProduct = JSON.parse(req.body.product)
+    const jsonProduct = req.body.product
+    // const jsonProduct = JSON.parse(req.body.product)
     const product = await Products.create({
       ProdName: jsonProduct.ProdName,
       Price: jsonProduct.Price,

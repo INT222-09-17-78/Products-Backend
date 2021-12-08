@@ -5,12 +5,19 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true,
             // autoIncrement: true,
             unique: true,
-            allowNull: false
+            allowNull: false,
+            validate:{
+                notEmpty: true
+            }
 
         },
         color: {
             type: DataTypes.STRING(50),
             allowNull: false,
+            validate:{
+                notEmpty: true
+            }
+            
 
         },
         ProdID:{

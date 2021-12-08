@@ -11,6 +11,9 @@ module.exports = (sequelize,DataTypes) => {
         ProdName:{
             type: DataTypes.STRING(45),
             allowNull: false,
+            validate:{
+                notEmpty: true
+            }
 
         },
         Price:{
@@ -28,6 +31,9 @@ module.exports = (sequelize,DataTypes) => {
             type: DataTypes.STRING(50),
             allowNull: false,
             unique: true,
+            validate:{
+                notEmpty: true
+            }
         },
         BrandId:{
             type: DataTypes.INTEGER,
