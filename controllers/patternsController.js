@@ -67,7 +67,8 @@ exports.editPattern = (req, res) => {
         //         }
         //     }
         // }
-        Pattern.bulkCreate(patterns, { validate: true ,ignoreDuplicates: true}).then(data => res.status(200).json(data)).catch(err => {
+        
+        Pattern.bulkCreate(patterns, { updateOnDuplicate: ["PatternImage", "color"], validate: true ,ignoreDuplicates: true}).then(data => res.status(200).json(data)).catch(err => {
 
             console.log(req.files)
             if (req.files) {

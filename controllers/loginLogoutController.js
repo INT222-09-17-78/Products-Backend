@@ -64,7 +64,7 @@ exports.loggedInUser = (req, res) => {
     } else {
       const token = auth.createTokens(user)
       res.cookie("access-token", token, {
-        maxAge: 1800000,
+        maxAge: 24 * 60 * 60 * 1000 * 30,
         httpOnly: true,
       })
       // req.session.username = user.username
