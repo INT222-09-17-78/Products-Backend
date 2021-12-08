@@ -65,7 +65,7 @@ exports.loggedInUser = (req, res) => {
       const token = auth.createTokens(user)
       res.cookie("access-token", token, {
         maxAge: 1800000,
-        httpOnly: true,
+        // httpOnly: true,
       })
       // req.session.username = user.username
       // console.log(req.session)
