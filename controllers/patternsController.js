@@ -24,7 +24,6 @@ exports.createPattern = (req, res) => {
          res.status(200).json(data)}).catch(err => {
 
         if (req.files) {
-            //     fs.unlink('./images/' + req.file.filename)
             for (let i = 0; i < req.files.length; i++) {
                 fs.unlink('./images/patterns/' + req.files[i].filename)
             }
