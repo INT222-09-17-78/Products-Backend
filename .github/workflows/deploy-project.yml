@@ -49,6 +49,7 @@ jobs:
             docker-compose up --build -d   
             docker image prune -af
            
+# test
 #test
 # az acr login -n suesiRegistry
             
